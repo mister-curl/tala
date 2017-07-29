@@ -1,0 +1,7 @@
+Django==1.11.3
+django-adminlte-admin==0.4.11
+django-adminlte2==0.1.6
+future==0.16.0
+Markdown==2.6.8
+python-ipmi===fatal-.Not.a.git.repository.-or.any.of.the.parent.directories-..git
+pytz==2017.2
