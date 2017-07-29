@@ -5,6 +5,21 @@
     <title>Nodes</title>
 </head>
 <body>
-
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>NodeName</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for node in object_list %}
+        <tr>
+          <td><a href="{{ node.id }}/">{{ node.id }}</a></td>
+          <td><a href="{{ node.id }}/">{{ node.name }}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 </body>
 </html>
