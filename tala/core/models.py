@@ -19,6 +19,17 @@ class Node(models.Model):
         return self.name
 
 
+class VirtualMachines(models.Model):
+    name = models.CharField(max_length=200, blank=True)
+    description = models.CharField(max_length=200, blank=True)
+    hostname = models.CharField(max_length=200, blank=True)
+    ip_address = models.GenericIPAddressField(protocol='IPv4', blank=True)
+    mac_address = models.CharField(max_length=200, blank=True)
+    os = models.CharField(max_length=200, blank=True)
+    status = models.CharField(max_length=200, blank=True)
+    host_server = models.ForeignKey(Node)
+
+
 class OS(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
