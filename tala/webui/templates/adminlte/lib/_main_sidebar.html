@@ -1,0 +1,30 @@
+{% extends 'adminlte/lib/_main_sidebar.html' %}
+
+{% block nav_links %}
+    <li>
+        <a href="{% url 'webui:index' %}">
+            <i class="fa fa-home"></i> <span>Home</span>
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'webui:nodes' %}">
+            <i class="fa fa-server"></i> <span>Nodes</span>
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'webui:nodes' %}">
+            <i class="fa fa-server"></i> <span>Virtual Machines</span>
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'webui:nodes' %}">
+            <i class="fa fa-server"></i> <span>HyperVisor</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="/some/url">
+            <i class="fa fa-user"></i> <span>Users</span>
+        </a>
+    </li>
+{% endblock nav_links %}
