@@ -19,7 +19,7 @@ class Node(models.Model):
         return self.name
 
 
-class VirtualMachines(models.Model):
+class VirtualMachine(models.Model):
     name = models.CharField(max_length=200, blank=True)
     description = models.CharField(max_length=200, blank=True)
     hostname = models.CharField(max_length=200, blank=True)
