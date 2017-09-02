@@ -28,12 +28,23 @@ class NodeViewSet(viewsets.GenericViewSet,
 class NodeGraphViewSet(BaseLineChartView,
                        viewsets.GenericViewSet,
                        mixins.RetrieveModelMixin):
+
+    graph_type = None
+    graph_range = None
+
     def get_labels(self):
         """Return 7 labels for the x-axis."""
+        # 1分
+        # 1時間
+        # 1日
+        # 1週間
         return ["January", "February", "March", "April", "May", "June", "July"]
 
     def get_providers(self):
-        """Return names of datasets."""
+        if self.graph_type == "network":
+            return ["Incoming", "Outgoing"]
+        elif self.graph_type == "disk":
+            return ["Read", "Write"]
         return ["Central", "Eastside", "Westside"]
 
     def get_data(self):
