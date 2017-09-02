@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Hello tala!</title>
-</head>
-<body>
-    Hello tala!
-    <br>
-    <a href="{% url 'webui:nodes' %}">Nodes</a><br>
-    <a href="{% url 'webui:images' %}">Images</a><br>
-</body>
-</html>
+{% extends 'adminlte/base.html' %}
+
+{% block title %}tala{% endblock %}
+{% block content %}
+    Just some example content
+{% endblock %}
