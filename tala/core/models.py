@@ -2,12 +2,18 @@ from django.db import models
 
 
 class Node(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
-    ip_address = models.GenericIPAddressField(protocol='IPv4')
-    ipmi_ip_address = models.GenericIPAddressField(protocol='IPv4')
-    ipmi_user_name = models.CharField(max_length=200)
-    ipmi_password = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, blank=True)
+    description = models.CharField(max_length=200, blank=True)
+    hostname = models.CharField(max_length=200, blank=True)
+    ip_address = models.GenericIPAddressField(protocol='IPv4', blank=True)
+    mac_address = models.CharField(max_length=200, blank=True)
+    os = models.CharField(max_length=200, blank=True)
+    status = models.CharField(max_length=200, blank=True)
+    type = models.CharField(max_length=200, blank=True)
+    ipmi_ip_address = models.GenericIPAddressField(protocol='IPv4', blank=True)
+    ipmi_mac_address = models.CharField(max_length=200, blank=True)
+    ipmi_user_name = models.CharField(max_length=200, blank=True)
+    ipmi_password = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
