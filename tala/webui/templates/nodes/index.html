@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Nodes</title>
-</head>
-<body>
+{% extends 'adminlte/base.html' %}
+
+{% block title %}Nodes{% endblock %}
+{% block content %}
+    <h1>Nodes</h1>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
           <th>ID</th>
           <th>NodeName</th>
+          <th>IP Address</th>
+          <th>Power</th>
+          <th>Type</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -17,9 +19,12 @@
         <tr>
           <td><a href="{{ node.id }}/">{{ node.id }}</a></td>
           <td><a href="{{ node.id }}/">{{ node.name }}</a></td>
+          <td>xxx.xxx.xxx.xxx</td>
+          <td>On</td>
+          <td>KVM</td>
+          <td>EDIT</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-</body>
-</html>
+{% endblock %}

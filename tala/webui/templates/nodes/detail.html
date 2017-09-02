@@ -1,13 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'adminlte/base.html' %}
+
+{% block title %}Node : {{ object.name }}{% endblock %}
+{% load staticfiles %}
 <head>
-    <meta charset="UTF-8">
-    <title>Node : {{ object.name }}</title>
+    <!--[if lte IE 8]>
+            <script src="{% static 'js/excanvas.js' %}"></script>
+    <![endif]-->
 </head>
-<body>
-    <h1>{{ object.name }}</h1>
-    <div >
-        <h2>Server Info</h2>
+{% block content %}
+<h1>{{ object.name }}</h1>
+<a href="osintall">OSインストールするリンク</a>
+<a href="osintall">編集ボタン</a>
+<a href="osintall">削除ボタン</a>
+<div>
+    <table class="table table-striped table-bordered">
+      <tbody>
+        <tr><th>Hostname</th><td>HOSTNAME</td></tr>
+        <tr><th>IP Address</th><td>{{ object.ip_address }}</td></tr>
+        <tr><th>MAC Address</th><td>FF:FF:FF:FF:FF:FF</td></tr>
+        <tr><th>Power</th><td>On</td></tr>
+        <tr><th>Type</th><td>TYPE</td></tr>
+        <tr><th>OS</th><td>OS</td></tr>
+        <tr><th>Description</th><td>{{ object.description }}</td></tr>
+        <tr><th>IPMI IP Address</th><td>{{ object.ipmi_ip_address }}</td></tr>
+        <tr><th>IPMI MAC Address</th><td>FF:FF:FF:FF:FF:FF</td></tr>
+        <tr><th>IPMI User</th><td>{{ object.ipmi_user_name }}</td></tr>
+        <tr><th>IPMI Password</th><td>{{ object.ipmi_password }}</td></tr>
+      </tbody>
+    </table>
+</div>
+<div>
+    <h2>VirtualMachines</h2>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>VMName</th>
+          <th>IP Address</th>
+          <th>Power</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for node in object_list %}
+        <tr>
+          <td><a href="{{ node.id }}/">{{ node.id }}</a></td>
+          <td><a href="{{ node.id }}/">{{ node.name }}</a></td>
+          <td>xxx.xxx.xxx.xxx</td>
+          <td>On</td>
+          <td>KVM</td>
+          <td>EDIT</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+</div>
+<div>
+    <h2>Utilization</h2>
+    <div>
+        <h3>CPU</h3>
+            <canvas id="CPUChart" width="50" height="50"></canvas>
+        <h3>MEMORY</h3>
+            <canvas id="MEMORYChart" width="50" height="50"></canvas>
+        <h3>Disk I/O</h3>
+            <canvas id="DISKIOChart" width="50" height="50"></canvas>
+        <h3>Network traffic</h3>
+            <canvas id="NETWORKChart" width="50" height="50"></canvas>
     </div>
-</body>
-</html>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+    <script type="text/javascript">
+        $.get('{% url "webui:line_chart_json" %}', function(data) {
+            var ctx = $("#CPUChart").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $.get('{% url "webui:line_chart_json" %}', function(data) {
+            var ctx = $("#MEMORYChart").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+        <script type="text/javascript">
+        $.get('{% url "webui:line_chart_json" %}', function(data) {
+            var ctx = $("#DISKIOChart").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $.get('{% url "webui:line_chart_json" %}', function(data) {
+            var ctx = $("#NETWORKChart").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+</div>
+{% endblock %}
