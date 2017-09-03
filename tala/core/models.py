@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -39,3 +40,7 @@ class OS(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class User(AbstractUser):
+    ssh_public_key = models.TextField(blank=True, null=True)
