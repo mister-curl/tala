@@ -6,6 +6,8 @@ from random import randint
 from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
 
+from core.models import VirtualMachine
+
 
 def index(request):
     return render(request, 'index.html')
@@ -31,6 +33,16 @@ class NodesView(ListView):
 class NodeView(DetailView):
     model = Node
     template_name = 'nodes/detail.html'
+
+
+class VirtualMachinesView(ListView):
+    model = VirtualMachine
+    template_name = 'tala/virtual_machines/index.html'
+
+
+class VirtualMachineView(DetailView):
+    model = VirtualMachine
+    template_name = 'tala/virtual_machines/detail.html'
 
 
 class LineChartJSONView(BaseLineChartView):
