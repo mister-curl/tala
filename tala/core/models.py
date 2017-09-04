@@ -28,7 +28,7 @@ class VirtualMachine(models.Model):
     mac_address = models.CharField(max_length=200, blank=True)
     os = models.CharField(max_length=200, blank=True)
     status = models.CharField(max_length=200, blank=True)
-    host_server = models.ForeignKey(Node)
+    host_server = models.ForeignKey(Node, related_name='virtual_machines')
 
 
 class OS(models.Model):
