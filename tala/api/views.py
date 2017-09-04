@@ -6,6 +6,7 @@ from core.models import Node
 from django.http import HttpResponse
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import detail_route
+from rest_framework.response import Response
 
 
 class NodeViewSet(viewsets.GenericViewSet,
@@ -59,4 +60,4 @@ class NodeGraphViewSet(BaseLineChartView,
 
     def retrieve(self, request, *args, **kwargs):
         print(kwargs)
-        return HttpResponse(json.dumps(super().get_context_data()))
+        return Response(json.dumps(super().get_context_data()))
