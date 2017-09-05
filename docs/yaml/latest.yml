@@ -45,7 +45,7 @@ paths:
                   type: integer
                   description: "User ID"
                   example: 1
-                name:
+                username:
                   type: string
                   description: "Username"
                   example: "Hans Schmidt"
@@ -69,7 +69,7 @@ paths:
                 type: integer
                 description: "User ID"
                 example: 1
-              name:
+              username:
                 type: string
                 description: "Username"
                 example: "Hans Schmidt"
