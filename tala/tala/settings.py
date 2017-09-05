@@ -128,3 +128,5 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/ui'
 
 LOGOUT_URL = '/ui/logout'
+
+LOGIN_URL = '/ui/login'

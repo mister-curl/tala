@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^virtualmachines/(?P<pk>[0-9]+)/$', views.VirtualMachineView.as_view(), name='virtualmachine'),
     url(r'^users/$', views.UsersView.as_view(), name='users'),
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserView.as_view(), name='user'),
+    url(r'^users/(?P<pk>[0-9]+)/edit/$', views.UserUpdate.as_view(), name='user-edit'),
     url(r'^images/$', views.image, name='images'),
     url(r'^create/$', views.NodeOSInstall.as_view(), name='news-create'),
     url(r'^login/$', auth_views.login, {'template_name': 'tala/auth/login.html'}, name='login'),
