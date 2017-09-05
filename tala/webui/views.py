@@ -103,6 +103,6 @@ class NodeOSInstall(CreateView):
 
 class UserUpdate(UpdateView):
     model = User
-    fields = ['first_name', 'last_name', 'ssh_public_key']
+    fields = ['first_name', 'last_name', 'email', 'ssh_public_key']
     template_name = 'tala/users/edit.html'
     success_url = "/ui/users/"
