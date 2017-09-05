@@ -5,6 +5,7 @@ from api import views
 
 router = routers.SimpleRouter()
 router.register(r'nodes', views.NodeViewSet)
+router.register(r'users', views.UserViewSet)
 
 nodes_router = routers.NestedSimpleRouter(router, r'nodes', lookup='node')
 nodes_router.register(r'graphs', views.NodeGraphViewSet, base_name='node-graphs')

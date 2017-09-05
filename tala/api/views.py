@@ -1,8 +1,8 @@
 import json
 
-from api.serializers import NodeSerializer
+from api.serializers import NodeSerializer, UserSerializer
 from chartjs.views.lines import BaseLineChartView
-from core.models import Node
+from core.models import Node, User
 from django.http import HttpResponse
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import detail_route
@@ -61,3 +61,22 @@ class NodeGraphViewSet(BaseLineChartView,
     def retrieve(self, request, *args, **kwargs):
         print(kwargs)
         return Response(json.dumps(super().get_context_data()))
+
+
+class UserViewSet(viewsets.GenericViewSet,
+                  mixins.ListModelMixin,
+                  mixins.RetrieveModelMixin):
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        try:
+            user = User.objects.get(username=self.kwargs['pk'])
+            return user
+        except:
+            try:
+                user = User.objects.get(id=self.kwargs['pk'])
+                return user
+            except:
+                return None
