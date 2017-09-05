@@ -1,0 +1,9 @@
+.idea/
+tala/api/__pycache__/
+tala/core/__pycache__/
+tala/core/migrations/__pycache__/
+tala/core/utils/__pycache__/
+*.pyc
+tala/db.sqlite3
+tala/dump.rdb
+tala/tala/__pycache__/
