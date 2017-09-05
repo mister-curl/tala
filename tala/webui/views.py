@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
@@ -11,6 +13,16 @@ from core.models import VirtualMachine
 from core.models import User
 
 
+def login(request):
+    return render(request, 'tala/auth/login.html')
+
+
+@login_required
+def logout(request):
+    return render(request, 'tala/auth/logout.html')
+
+
+@login_required
 def index(request):
     return render(request, 'index.html')
 
@@ -27,32 +39,32 @@ def image(request):
     return render(request, 'images/index.html')
 
 
-class NodesView(ListView):
+class NodesView(LoginRequiredMixin, ListView):
     model = Node
     template_name = 'nodes/index.html'
 
 
-class NodeView(DetailView):
+class NodeView(LoginRequiredMixin, DetailView):
     model = Node
     template_name = 'nodes/detail.html'
 
 
-class VirtualMachinesView(ListView):
+class VirtualMachinesView(LoginRequiredMixin, ListView):
     model = VirtualMachine
     template_name = 'tala/virtual_machines/index.html'
 
 
-class VirtualMachineView(DetailView):
+class VirtualMachineView(LoginRequiredMixin, DetailView):
     model = VirtualMachine
     template_name = 'tala/virtual_machines/detail.html'
 
 
-class UsersView(ListView):
+class UsersView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'tala/users/index.html'
 
 
-class UserView(DetailView):
+class UserView(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'tala/users/detail.html'
 
@@ -76,7 +88,7 @@ class LineChartJSONView(BaseLineChartView):
 line_chart = TemplateView.as_view(template_name='line_chart.html')
 line_chart_json = LineChartJSONView.as_view()
 
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import render
 
 
@@ -87,3 +99,10 @@ class NodeOSInstall(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         return render(self.request, 'news/news_create_success.html', {'news': self.object})
+
+
+class UserUpdate(UpdateView):
+    model = User
+    fields = ['first_name', 'last_name', 'email', 'ssh_public_key']
+    template_name = 'tala/users/edit.html'
+    success_url = "/ui/users/"
