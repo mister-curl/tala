@@ -8,6 +8,8 @@ from chartjs.views.lines import BaseLineChartView
 
 from core.models import VirtualMachine
 
+from core.models import User
+
 
 def index(request):
     return render(request, 'index.html')
@@ -43,6 +45,16 @@ class VirtualMachinesView(ListView):
 class VirtualMachineView(DetailView):
     model = VirtualMachine
     template_name = 'tala/virtual_machines/detail.html'
+
+
+class UsersView(ListView):
+    model = User
+    template_name = 'tala/users/index.html'
+
+
+class UserView(DetailView):
+    model = User
+    template_name = 'tala/users/detail.html'
 
 
 class LineChartJSONView(BaseLineChartView):
