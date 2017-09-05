@@ -11,6 +11,14 @@ from core.models import VirtualMachine
 from core.models import User
 
 
+def login(request):
+    return render(request, 'tala/auth/login.html')
+
+
+def logout(request):
+    return render(request, 'tala/auth/logout.html')
+
+
 def index(request):
     return render(request, 'index.html')
 

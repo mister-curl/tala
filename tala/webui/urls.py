@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -11,5 +12,7 @@ urlpatterns = [
     url(r'^users/$', views.UsersView.as_view(), name='users'),
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserView.as_view(), name='user'),
     url(r'^images/$', views.image, name='images'),
-    url(r'^create/$', views.NodeOSInstall.as_view(), name='news-create')
+    url(r'^create/$', views.NodeOSInstall.as_view(), name='news-create'),
+    url(r'^login/$', auth_views.login, {'template_name': 'tala/auth/login.html'}, name='login'),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/ui'}, name='logout'),
 ]
