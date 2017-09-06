@@ -8,6 +8,10 @@ from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 
+from api.serializers import MetricsSerializer
+
+from core.models import Metrics
+
 
 class NodeViewSet(viewsets.GenericViewSet,
                   mixins.RetrieveModelMixin,
@@ -29,7 +33,7 @@ class NodeViewSet(viewsets.GenericViewSet,
 class NodeGraphViewSet(BaseLineChartView,
                        viewsets.GenericViewSet,
                        mixins.RetrieveModelMixin):
-
+    node = None
     graph_type = None
     graph_range = None
 
@@ -46,9 +50,44 @@ class NodeGraphViewSet(BaseLineChartView,
             return ["Incoming", "Outgoing"]
         elif self.graph_type == "disk":
             return ["Read", "Write"]
-        return ["Central", "Eastside", "Westside"]
+        elif self.graph_type == "cpu":
+            return ["1m", "5m", "10m"]
+        elif self.graph_type == "memory":
+            return ["total", "used", "free"]
 
     def get_data(self):
+        if self.graph_type == "network":
+            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by('-created_date')[:7].values_list('value', flat=True)
+            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by('-created_date')[:7].values_list('value', flat=True)
+            network_incoming = list(network_incoming)
+            network_outgoing = list(network_outgoing)
+            return [network_incoming, network_outgoing]
+        elif self.graph_type == "disk":
+            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_incoming = list(network_incoming)
+            network_outgoing = list(network_outgoing)
+            return [network_incoming, network_outgoing]
+        elif self.graph_type == "cpu":
+            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_incoming = list(network_incoming)
+            network_outgoing = list(network_outgoing)
+            return [network_incoming, network_outgoing, network_outgoing]
+        elif self.graph_type == "memory":
+            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_incoming = list(network_incoming)
+            network_outgoing = list(network_outgoing)
+            return [network_incoming, network_outgoing, network_outgoing]
+
+
         """Return 3 datasets to plot."""
 
         return [[75, 44, 92, 11, 44, 95, 35],
@@ -59,8 +98,10 @@ class NodeGraphViewSet(BaseLineChartView,
     serializer_class = NodeSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        print(kwargs)
-        return Response(json.dumps(super().get_context_data()))
+        self.node = kwargs['node_pk']
+        self.graph_type = kwargs['pk']
+        context = super().get_context_data()
+        return Response(context)
 
 
 class UserViewSet(viewsets.GenericViewSet,
@@ -80,3 +121,30 @@ class UserViewSet(viewsets.GenericViewSet,
                 return user
             except:
                 return None
+
+
+class MetricsViewSet(viewsets.ViewSet):
+
+    serializer_class = MetricsSerializer
+    queryset = Metrics.objects.all()
+
+    def create(self, request, node_pk):
+        data = request.data
+        data.update({"node": int(node_pk)})
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request, node_pk):
+        queryset = Metrics.objects.filter(node=node_pk)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk, node_pk=None):
+        # TODO: metrics_typeごとにグラフを返す処理を実装する
+        queryset = Metrics.objects.filter(node=node_pk, metrics_type=pk)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)

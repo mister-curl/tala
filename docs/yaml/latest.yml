@@ -30,6 +30,101 @@ paths:
         200:
           description: OK
 
+  /nodes/{id}/metrics/:
+    get:
+      summary: "対象のノードのメトリクス情報を取得します"
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Node ID"
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              properties:
+                metrics_type:
+                  type: string
+                  description: "メトリクスタイプ"
+                value:
+                  type: string
+                  description: "値"
+                date:
+                  type: string
+                  description: "値を取得した時間"
+                unit:
+                  type: string
+                  description: "単位"
+
+    post:
+      summary: "対象のノードのメトリクス情報を保存します"
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Node ID"
+          required: true
+          type: integer
+        - name: "body"
+          in: body
+          schema:
+            properties:
+              metrics_type:
+                type: string
+                description: "メトリクスタイプ"
+              value:
+                type: string
+                description: "値"
+              date:
+                type: string
+                description: "値を取得した時間"
+              unit:
+                type: string
+                description: "単位"
+      responses:
+        200:
+          description: OK
+
+
+  /nodes/{id}/metrics/{metrics_type}/:
+    get:
+      summary: "対象のノードのメトリクスごとのメトリクス情報を取得します"
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Node ID"
+          required: true
+          type: integer
+        - name: "metrics_type"
+          in: "path"
+          description: "Metrics Type"
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              properties:
+                metrics_type:
+                  type: string
+                  description: "メトリクスタイプ"
+                value:
+                  type: string
+                  description: "値"
+                date:
+                  type: string
+                  description: "値を取得した時間"
+                unit:
+                  type: string
+                  description: "単位"
+
   /users/:
     get:
       summary: "ユーザ一覧を取得します"
