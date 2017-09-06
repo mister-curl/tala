@@ -94,7 +94,6 @@ class MetricsViewSet(viewsets.ViewSet):
     def create(self, request, node_pk):
         data = request.data
         data.update({"node": int(node_pk)})
-        print(data)
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -109,6 +108,6 @@ class MetricsViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, pk, node_pk=None):
         # TODO: metrics_typeごとにグラフを返す処理を実装する
-        queryset = Metrics.objects.filter(node=node_pk)
+        queryset = Metrics.objects.filter(node=node_pk, metrics_type=pk)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
