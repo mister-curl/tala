@@ -8,6 +8,10 @@ from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 
+from api.serializers import MetricsSerializer
+
+from core.models import Metrics
+
 
 class NodeViewSet(viewsets.GenericViewSet,
                   mixins.RetrieveModelMixin,
@@ -80,3 +84,31 @@ class UserViewSet(viewsets.GenericViewSet,
                 return user
             except:
                 return None
+
+
+class MetricsViewSet(viewsets.ViewSet):
+
+    serializer_class = MetricsSerializer
+    queryset = Metrics.objects.all()
+
+    def create(self, request, node_pk):
+        data = request.data
+        data.update({"node": int(node_pk)})
+        print(data)
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request, node_pk):
+        queryset = Metrics.objects.filter(node=node_pk)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk, node_pk=None):
+        # TODO: metrics_typeごとにグラフを返す処理を実装する
+        queryset = Metrics.objects.filter(node=node_pk)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)

@@ -44,3 +44,12 @@ class OS(models.Model):
 
 class User(AbstractUser):
     ssh_public_key = models.TextField(blank=True, null=True)
+
+
+class Metrics(models.Model):
+    metrics_type = models.CharField(max_length=20)
+    unit = models.CharField(max_length=20)
+    date = models.DateTimeField()
+    created_date = models.DateTimeField(auto_now=True)
+    value = models.CharField(max_length=20)
+    node = models.ForeignKey(Node)
