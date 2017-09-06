@@ -30,6 +30,36 @@ paths:
         200:
           description: OK
 
+  /nodes/{id}/metrics/:
+    post:
+      summary: "対象のノードのメトリクス情報を保存します"
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Node ID"
+          required: true
+          type: integer
+        - name: "body"
+          in: body
+          schema:
+            properties:
+              metrics_type:
+                type: string
+                description: "メトリクスタイプ"
+              value:
+                type: string
+                description: "値"
+              date:
+                type: string
+                description: "値を取得した時間"
+              unit:
+                type: string
+                description: "単位"
+      responses:
+        200:
+          description: OK
+
   /users/:
     get:
       summary: "ユーザ一覧を取得します"
