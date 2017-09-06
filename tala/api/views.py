@@ -33,7 +33,7 @@ class NodeViewSet(viewsets.GenericViewSet,
 class NodeGraphViewSet(BaseLineChartView,
                        viewsets.GenericViewSet,
                        mixins.RetrieveModelMixin):
-
+    node = None
     graph_type = None
     graph_range = None
 
@@ -50,9 +50,44 @@ class NodeGraphViewSet(BaseLineChartView,
             return ["Incoming", "Outgoing"]
         elif self.graph_type == "disk":
             return ["Read", "Write"]
-        return ["Central", "Eastside", "Westside"]
+        elif self.graph_type == "cpu":
+            return ["1m", "5m", "10m"]
+        elif self.graph_type == "memory":
+            return ["total", "used", "free"]
 
     def get_data(self):
+        if self.graph_type == "network":
+            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by('-created_date')[:7].values_list('value', flat=True)
+            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by('-created_date')[:7].values_list('value', flat=True)
+            network_incoming = list(network_incoming)
+            network_outgoing = list(network_outgoing)
+            return [network_incoming, network_outgoing]
+        elif self.graph_type == "disk":
+            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_incoming = list(network_incoming)
+            network_outgoing = list(network_outgoing)
+            return [network_incoming, network_outgoing]
+        elif self.graph_type == "cpu":
+            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_incoming = list(network_incoming)
+            network_outgoing = list(network_outgoing)
+            return [network_incoming, network_outgoing, network_outgoing]
+        elif self.graph_type == "memory":
+            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_incoming = list(network_incoming)
+            network_outgoing = list(network_outgoing)
+            return [network_incoming, network_outgoing, network_outgoing]
+
+
         """Return 3 datasets to plot."""
 
         return [[75, 44, 92, 11, 44, 95, 35],
@@ -63,8 +98,10 @@ class NodeGraphViewSet(BaseLineChartView,
     serializer_class = NodeSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        print(kwargs)
-        return Response(json.dumps(super().get_context_data()))
+        self.node = kwargs['node_pk']
+        self.graph_type = kwargs['pk']
+        context = super().get_context_data()
+        return Response(context)
 
 
 class UserViewSet(viewsets.GenericViewSet,
