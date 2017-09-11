@@ -111,8 +111,20 @@ class UserUpdate(UpdateView):
 
 
 class UserCreate(CreateView):
-    #model = User
     form_class = UserCreateForm
-    #fields = ['username', 'first_name', 'last_name', 'email', 'password', 'ssh_public_key']
     template_name = 'tala/users/create.html'
     success_url = "/ui/users/"
+
+
+class NodeCreate(CreateView):
+    model = Node
+    fields = ['name', 'description', 'hostname', 'ipmi_ip_address', 'ipmi_mac_address', 'ipmi_user_name', 'ipmi_password']
+    template_name = 'tala/nodes/create.html'
+    success_url = "/ui/nodes/"
+
+
+class NodeUpdate(UpdateView):
+    model = node
+    fields = ['name', 'description', 'hostname', 'ipmi_ip_address', 'ipmi_mac_address', 'ipmi_user_name', 'ipmi_password']
+    template_name = 'tala/nodes/edit.html'
+    success_url = "/ui/nodes/"
