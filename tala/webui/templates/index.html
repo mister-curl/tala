@@ -2,5 +2,28 @@
 
 {% block title %}tala{% endblock %}
 {% block content %}
-    Just some example content
+<div class="small-box bg-aqua">
+    <div class="inner">
+        <h3>150</h3>
+        <p>Management Nodes</p>
+    </div>
+    <div class="icon">
+        <i class="fa fa-server"></i>
+    </div>
+    <a href="{% url 'webui:nodes' %}" class="small-box-footer">
+        More info <i class="fa fa-arrow-circle-right"></i>
+    </a>
+</div>
+<div class="small-box bg-green">
+    <div class="inner">
+        <h3>53</sup></h3>
+        <p>Management Virtual Machines</p>
+    </div>
+    <div class="icon">
+        <i class="fa fa-cubes"></i>
+    </div>
+    <a href="{% url 'webui:virtualmachines' %}" class="small-box-footer">
+      More info <i class="fa fa-arrow-circle-right"></i>
+    </a>
+</div>
 {% endblock %}
