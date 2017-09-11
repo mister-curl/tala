@@ -23,7 +23,7 @@ def get_bare_metal_info(host_id):
     BM 情報取得
     """
 
-    command = [BASH, SCRIPT_ROOT_DIR_PATH, 'bmgetinfo.sh', '-H', str(host_id), ]
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'bmgetinfo.sh', '-H', str(host_id), ]
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout = process.stdout.decode('utf-8')
     stderr = process.stderr.decode('utf-8')
@@ -36,7 +36,7 @@ def create_bare_metal(host_id, distribution, username):
     ベアメタル作成
     """
 
-    command = [BASH, SCRIPT_ROOT_DIR_PATH, 'bmcreate.sh', '-H', str(host_id), '-d', distribution, '-U', username]
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'bmcreate.sh', '-H', str(host_id), '-d', distribution, '-U', username]
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout = process.stdout.decode('utf-8')
     stderr = process.stderr.decode('utf-8')
@@ -49,7 +49,7 @@ def create_kvm_hyper_visor(host_id):
     BM→KVMホスト化
     """
 
-    command = [BASH, SCRIPT_ROOT_DIR_PATH, 'kvmcreate.sh', '-H', str(host_id)]
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'kvmcreate.sh', '-H', str(host_id)]
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout = process.stdout.decode('utf-8')
     stderr = process.stderr.decode('utf-8')
@@ -67,7 +67,7 @@ def create_virtual_machine(host_id, node_name):
     vm_os = 'ubuntu1604_x86-64'
     vm_password = 'test'
 
-    command = [BASH, SCRIPT_ROOT_DIR_PATH, 'vmcreate.sh', '-H', str(host_id), '-n', node_name, '-c', str(allocate_cpu),
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'vmcreate.sh', '-H', str(host_id), '-n', node_name, '-c', str(allocate_cpu),
                '-m', str(allocate_memory_size), '-d', str(allocate_disk_size), '-o', vm_os, '-p', vm_password]
 
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
