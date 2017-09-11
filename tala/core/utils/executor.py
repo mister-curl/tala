@@ -2,7 +2,7 @@ import subprocess
 
 from celery import Celery
 
-app = Celery('tasks', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0')
+app = Celery('tasks', broker='redis://27.133.152.179:6379/0', backend='redis://27.133.152.179:6379/0')
 SCRIPT_ROOT_DIR_PATH = '/'
 
 
@@ -18,7 +18,7 @@ def get_bare_metal_info(host_id):
     BM 情報取得
     """
 
-    command = [SCRIPT_ROOT_DIR_PATH, 'bmgetinfo.sh', '-H', host_id, ]
+    command = [SCRIPT_ROOT_DIR_PATH, 'bmgetinfo.sh', '-H', str(host_id), ]
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout = process.stdout.decode('utf-8')
     stderr = process.stderr.decode('utf-8')
@@ -31,7 +31,7 @@ def create_bare_metal(host_id, distribution, username):
     ベアメタル作成
     """
 
-    command = [SCRIPT_ROOT_DIR_PATH, 'bmcreate.sh', '-H', host_id, '-d', distribution, '-U', username]
+    command = [SCRIPT_ROOT_DIR_PATH, 'bmcreate.sh', '-H', str(host_id), '-d', distribution, '-U', username]
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout = process.stdout.decode('utf-8')
     stderr = process.stderr.decode('utf-8')
@@ -44,7 +44,7 @@ def create_kvm_hyper_visor(host_id):
     BM→KVMホスト化
     """
 
-    command = [SCRIPT_ROOT_DIR_PATH, 'kvmcreate.sh', '-H', host_id]
+    command = [SCRIPT_ROOT_DIR_PATH, 'kvmcreate.sh', '-H', str(host_id)]
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout = process.stdout.decode('utf-8')
     stderr = process.stderr.decode('utf-8')
@@ -62,8 +62,8 @@ def create_virtual_machine(host_id, node_name):
     vm_os = 'ubuntu1604_x86-64'
     vm_password = 'test'
 
-    command = [SCRIPT_ROOT_DIR_PATH, 'vmcreate.sh', '-H', host_id, '-n', node_name, '-c', allocate_cpu,
-               '-m', allocate_memory_size, '-d', allocate_disk_size, '-o', vm_os, '-p', vm_password]
+    command = [SCRIPT_ROOT_DIR_PATH, 'vmcreate.sh', '-H', str(host_id), '-n', node_name, '-c', str(allocate_cpu),
+               '-m', str(allocate_memory_size), '-d', str(allocate_disk_size), '-o', vm_os, '-p', vm_password]
 
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout = process.stdout.decode('utf-8')
