@@ -1,9 +1,13 @@
 import subprocess
 
-from celery import Celery
+import django
+from core.utils.my_cerely import get_app
 
-app = Celery('tasks', broker='redis://27.133.152.179:6379/0', backend='redis://27.133.152.179:6379/0')
+django.setup()
+
 SCRIPT_ROOT_DIR_PATH = '/'
+
+app = get_app()
 
 
 @app.task

@@ -124,3 +124,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+BROKER_URL = 'redis://27.133.152.179'
+CELERY_RESULT_BACKEND = 'redis'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_IMPORTS = ("core.utils.executor",)
