@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^virtualmachines/$', views.VirtualMachinesView.as_view(), name='virtualmachines'),
     url(r'^virtualmachines/(?P<pk>[0-9]+)/$', views.VirtualMachineView.as_view(), name='virtualmachine'),
     url(r'^users/$', views.UsersView.as_view(), name='users'),
+    url(r'^users/create/$', views.UserCreate.as_view(), name='user-create'),
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserView.as_view(), name='user'),
     url(r'^users/(?P<pk>[0-9]+)/edit/$', views.UserUpdate.as_view(), name='user-edit'),
     url(r'^images/$', views.image, name='images'),
