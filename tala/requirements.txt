@@ -1,10 +1,17 @@
+amqp==2.2.1
+billiard==3.5.0.3
+celery==4.1.0
 chartjs==1.2
 Django==1.11.4
 django-adminlte==1.2
 django-adminlte2==0.1.6
 django-chartjs==1.2
+django-modalview==0.1.5
 django-widget-tweaks==1.4.1
 djangorestframework==3.6.4
 drf-nested-routers==0.90.0
+kombu==4.1.0
 pytz==2017.2
+redis==2.10.6
 six==1.10.0
+vine==1.1.4
