@@ -33,22 +33,18 @@ def test(request):
     return render(request, 'test/index.html')
 
 
-def node(request):
-    return render(request, 'nodes/index.html')
-
-
 def image(request):
     return render(request, 'images/index.html')
 
 
 class NodesView(LoginRequiredMixin, ListView):
     model = Node
-    template_name = 'nodes/index.html'
+    template_name = 'tala/nodes/index.html'
 
 
 class NodeView(LoginRequiredMixin, DetailView):
     model = Node
-    template_name = 'nodes/detail.html'
+    template_name = 'tala/nodes/detail.html'
 
 
 class VirtualMachinesView(LoginRequiredMixin, ListView):
@@ -124,7 +120,7 @@ class NodeCreate(CreateView):
 
 
 class NodeUpdate(UpdateView):
-    model = node
+    model = Node
     fields = ['name', 'description', 'hostname', 'ipmi_ip_address', 'ipmi_mac_address', 'ipmi_user_name', 'ipmi_password']
     template_name = 'tala/nodes/edit.html'
     success_url = "/ui/nodes/"
