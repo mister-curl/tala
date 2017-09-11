@@ -12,13 +12,11 @@ def add(x, y):
 
 
 @app.task
-def get_bare_metal_info():
+def get_bare_metal_info(host_id):
     """
     物理サーバに対して情報の取得を行います
     BM 情報取得
     """
-
-    host_id = 1
 
     command = [SCRIPT_ROOT_DIR_PATH, 'bmgetinfo.sh', '-H', host_id, ]
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -27,14 +25,11 @@ def get_bare_metal_info():
 
 
 @app.task
-def create_bare_metal():
+def create_bare_metal(host_id, distribution, username):
     """
     物理サーバに対してOSのインストールを行います
     ベアメタル作成
     """
-    host_id = 1
-    distribution = 'ubuntu1604_x86-64'
-    username = 'test'
 
     command = [SCRIPT_ROOT_DIR_PATH, 'bmcreate.sh', '-H', host_id, '-d', distribution, '-U', username]
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -43,12 +38,11 @@ def create_bare_metal():
 
 
 @app.task
-def create_kvm_hyper_visor():
+def create_kvm_hyper_visor(host_id):
     """
     ベアメタルサーバからKVMホストを作成します
     BM→KVMホスト化
     """
-    host_id = 1
 
     command = [SCRIPT_ROOT_DIR_PATH, 'kvmcreate.sh', '-H', host_id]
     process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -57,13 +51,11 @@ def create_kvm_hyper_visor():
 
 
 @app.task
-def create_virtual_machine():
+def create_virtual_machine(host_id, node_name):
     """
     KVMホスト上にVMを作成します。
     VM作成
     """
-    host_id = 1
-    node_name = ''
     allocate_cpu = 2
     allocate_memory_size = 1024
     allocate_disk_size = 10
