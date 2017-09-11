@@ -20,3 +20,12 @@ sudo pip3 install virtualenv
 virtualenv ~/virtualenv
 source ~/virtualenv/bin/activate
 ```
+
+## Deploy
+
+```bash
+git clone https://github.com/mister-curl/tala.git
+cd tala/tala/core/utils
+export PYTHONPATH=/home/ubuntu/tala/tala/
+celery -A executor worker --loglevel=info
+```
