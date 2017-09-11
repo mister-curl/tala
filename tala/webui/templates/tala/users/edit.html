@@ -1,6 +1,7 @@
 {% extends 'adminlte/base.html' %}
 {% block title %}User : {{ object.username }}{% endblock %}
 {% block content %}
+<h1>Edit user</h1>
 <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Update" />
