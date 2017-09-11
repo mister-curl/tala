@@ -24,7 +24,7 @@ class UserCreateForm(forms.ModelForm):
 
     class Meta:
             model = User
-            fields = ('email', 'ssh_public_key')
+            fields = ('username', 'first_name', 'last_name', 'email', 'password', 'ssh_public_key')
 
     def save(self, commit=True):
         # Save the provided password in hashed format

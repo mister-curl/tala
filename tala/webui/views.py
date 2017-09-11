@@ -12,6 +12,8 @@ from core.models import VirtualMachine
 
 from core.models import User
 
+from core.admin import UserCreateForm
+
 
 def login(request):
     return render(request, 'tala/auth/login.html')
@@ -105,4 +107,12 @@ class UserUpdate(UpdateView):
     model = User
     fields = ['first_name', 'last_name', 'email', 'ssh_public_key']
     template_name = 'tala/users/edit.html'
+    success_url = "/ui/users/"
+
+
+class UserCreate(CreateView):
+    #model = User
+    form_class = UserCreateForm
+    #fields = ['username', 'first_name', 'last_name', 'email', 'password', 'ssh_public_key']
+    template_name = 'tala/users/create.html'
     success_url = "/ui/users/"
