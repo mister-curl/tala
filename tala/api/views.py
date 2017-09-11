@@ -24,9 +24,11 @@ class NodeViewSet(viewsets.GenericViewSet,
     def status(self, request, pk=None):
         try:
             node = Node.objects.get(id=pk)
+            node_status = self.request.data['status']
         except:
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
-        node.status = "READY"
+        node.status = node_status
+        node.save()
         return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
 
 
