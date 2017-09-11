@@ -1,0 +1,6 @@
+{% extends 'adminlte/login.html' %}
+{% block logo %}
+<div class="login-logo">
+    <a href="{% block logo_href %}{% url 'webui:index' %}{% endblock %}">{% block logo_text %}<b>t</b>a<b>l</b>a{% endblock %}</a>
+</div>
+{% endblock %}

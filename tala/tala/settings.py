@@ -131,3 +131,8 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_IMPORTS = ("core.utils.executor",)
+LOGIN_REDIRECT_URL = '/ui'
+
+LOGOUT_URL = '/ui/logout'
+
+LOGIN_URL = '/ui/login'

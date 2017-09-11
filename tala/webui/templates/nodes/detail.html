@@ -20,7 +20,6 @@
     <button class="btn btn-danger right">Delete</button>
 </div>
 
-
 <p>Click <a data-toggle="modal" data-target="#modal" href="{% url 'webui:news-create' %}">here</a> to show the modal</p>
 
 <div class="modal fade" id="modal"></div>
@@ -92,8 +91,7 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
     <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
     <script type="text/javascript">
-
-        $.get('{% url "webui:line_chart_json" %}', function(data) {
+        $.get('/tala/api/v1/nodes/{{ object.id }}/graphs/cpu/', function(data) {
             var ctx = $("#CPUChart").get(0).getContext("2d");
             new Chart(ctx, {
                 type: 'line', data: data
@@ -101,7 +99,7 @@
         });
     </script>
     <script type="text/javascript">
-        $.get('{% url "webui:line_chart_json" %}', function(data) {
+        $.get('/tala/api/v1/nodes/{{ object.id }}/graphs/memory/', function(data) {
             var ctx = $("#MEMORYChart").get(0).getContext("2d");
             new Chart(ctx, {
                 type: 'line', data: data
@@ -109,7 +107,7 @@
         });
     </script>
         <script type="text/javascript">
-        $.get('{% url "webui:line_chart_json" %}', function(data) {
+        $.get('/tala/api/v1/nodes/{{ object.id }}/graphs/disk/', function(data) {
             var ctx = $("#DISKIOChart").get(0).getContext("2d");
             new Chart(ctx, {
                 type: 'line', data: data
@@ -117,7 +115,7 @@
         });
     </script>
     <script type="text/javascript">
-        $.get('{% url "webui:line_chart_json" %}', function(data) {
+        $.get('/tala/api/v1/nodes/{{ object.id }}/graphs/network/', function(data) {
             var ctx = $("#NETWORKChart").get(0).getContext("2d");
             new Chart(ctx, {
                 type: 'line', data: data
