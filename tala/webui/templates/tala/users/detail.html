@@ -4,7 +4,7 @@
 {% block content %}
 <h1>{{ object.username }}</h1>
 <div class="btn-group">
-    <input type="button" class="btn btn-success" value="Edit" onClick="location.href='{% url 'webui:user-edit' pk=object.id %}'">
+    <button class="btn btn-primary" onClick="location.href='{% url 'webui:user-edit' pk=object.id %}'">Edit</button>
 </div>
 <div>
     <table class="table table-striped table-bordered">

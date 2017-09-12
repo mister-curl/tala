@@ -4,7 +4,7 @@
 {% block content %}
 <h1>Nodes</h1>
 <div class="btn-group">
-    <input type="button" class="btn btn-success" value="Add" onClick="location.href='{% url 'webui:node-create' %}'">
+    <button class="btn btn-primary" onClick="location.href='{% url 'webui:node-create' %}'">Add</button>
 </div>
 <table class="table table-striped table-bordered">
   <thead>
@@ -29,10 +29,10 @@
       <td>{{ node.status }}</td>
       <td>{{ node.type }}</td>
       <td>
-          <input type="button" class="btn" value="Edit" onClick="location.href='{% url 'webui:node-edit' pk=node.id %}'">
+          <button class="btn btn-info" onClick="location.href='{% url 'webui:node-edit' pk=node.id %}'">Edit</button>
       </td>
       <td>
-          <input type="button" class="btn" value="Delete" onClick="location.href='{% url 'webui:node-create' %}'">
+          <button class="btn btn-danger" onClick="location.href='{% url 'webui:node-create' %}'">Delete</button>
       </td>
     </tr>
     {% endfor %}
