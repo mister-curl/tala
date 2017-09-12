@@ -1,0 +1,9 @@
+{% extends 'adminlte/base.html' %}
+{% block title %}Add VirtualMachine{% endblock %}
+{% block content %}
+<h1>Add VirtualMachine</h1>
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Create" />
+</form>
+{% endblock %}

@@ -141,6 +141,9 @@ class NodeOsInstall(FormView):
     success_url = "/ui/nodes/"
 
     def form_valid(self, form):
-        from core.utils.executor import add
-        add.delay(3, 4)
+        from core.utils.executor import create_bare_metal
+        create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
+        node = Node.objects.get(id=self.kwargs['pk'])
+        node.status = "構築中"
+        node.save()
         return HttpResponseRedirect('/ui/nodes/')
