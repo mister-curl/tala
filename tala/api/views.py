@@ -27,7 +27,11 @@ class NodeViewSet(viewsets.GenericViewSet,
             node_status = self.request.data['status']
         except:
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
-        node.status = node_status
+        if node_status == 'KVM_READY':
+            node.type = 'KVM'
+            node.status = 'READY'
+        else:
+            node.status = node_status
         node.save()
         return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
 

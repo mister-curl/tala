@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, render_to_response
 from django.views.generic import ListView, DetailView
 
 from core.models import Node
@@ -13,6 +14,8 @@ from core.models import VirtualMachine
 from core.models import User
 
 from core.admin import UserCreateForm
+
+from webui.forms.node_os_install_form import NodeOsInstallForm
 
 
 def login(request):
@@ -86,7 +89,7 @@ class LineChartJSONView(BaseLineChartView):
 #line_chart = TemplateView.as_view(template_name='line_chart.html')
 line_chart_json = LineChartJSONView.as_view()
 
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
 from django.shortcuts import render
 
 
@@ -124,3 +127,23 @@ class NodeUpdate(UpdateView):
     fields = ['name', 'description', 'hostname', 'ipmi_ip_address', 'ipmi_mac_address', 'ipmi_user_name', 'ipmi_password']
     template_name = 'tala/nodes/edit.html'
     success_url = "/ui/nodes/"
+
+
+class NodeDelete(DeleteView):
+    model = Node
+    template_name = 'tala/nodes/delete.html'
+    success_url = '/ui/nodes/'
+
+
+class NodeOsInstall(FormView):
+    template_name = 'tala/nodes/os_install_form.html'
+    form_class = NodeOsInstallForm
+    success_url = "/ui/nodes/"
+
+    def form_valid(self, form):
+        from core.utils.executor import create_bare_metal
+        create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
+        node = Node.objects.get(id=self.kwargs['pk'])
+        node.status = "構築中"
+        node.save()
+        return HttpResponseRedirect('/ui/nodes/')

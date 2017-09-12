@@ -14,9 +14,9 @@
 {% block content %}
 <h1>{{ object.name }}</h1>
 <div class="btn-group">
-    <button class="btn btn-primary" onClick="location.href='{% url 'webui:node-create' %}'">OS Install</button>
+    <button class="btn btn-primary" onClick="location.href='{% url 'webui:node-install' pk=node.id %}'">OS Install</button>
     <button class="btn btn-success" onClick="location.href='{% url 'webui:node-edit' pk=node.id %}'">Edit</button>
-    <button class="btn btn-danger right" onClick="location.href='{% url 'webui:node-create' %}'">Delete</button>
+    <button class="btn btn-danger right" onClick="location.href='{% url 'webui:node-delete' pk=node.id %}'">Delete</button>
 </div>
 <!--
 <p>Click <a data-toggle="modal" data-target="#modal" href="{% url 'webui:news-create' %}">here</a> to show the modal</p>
