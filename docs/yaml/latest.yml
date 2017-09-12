@@ -7,6 +7,34 @@ basePath: "/tala/api/v1"
 schemes:
   - http
 paths:
+  /nodes/:
+    get:
+      summary: "ノード情報を取得(一覧)します"
+      description: "ノード情報を取得(一覧)します"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Node'
+
+  /nodes/{id}/:
+    get:
+      summary: "ノード情報を取得します"
+      description: "ノード情報を取得します"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Node ID"
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Node'
+
   /nodes/{id}/status/:
     post:
       summary: "対象のノードの状態を変更します"
@@ -171,3 +199,57 @@ paths:
               ssh_public_key:
                 type: string
                 description: "SSH Public Key"
+
+definitions:
+  Node:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: "Node ID"
+        example: 1
+      name:
+        type: string
+        description: "名前"
+        example: "Node01"
+      description:
+        type: string
+        description: "説明"
+        example: "一号機"
+      hostname:
+        type: string
+        description: "ホスト名"
+        example: "hogehoge.example.com"
+      ip_address:
+        type: string
+        description: "IPアドレス"
+        example: "192.168.25.3"
+      mac_address:
+        type: string
+        description: "MACアドレス"
+        example: "FF:FF:FF:FF:FF:FF"
+      os:
+        type: string
+        description: "OS"
+      status:
+        type: string
+        description: "ステータス"
+      type:
+        type: string
+        description: "Node TYPE"
+      ipmi_ip_address:
+        type: string
+        description: "IPMI IPアドレス"
+        example: "192.168.125.3"
+      ipmi_mac_address:
+        type: string
+        description: "IPMI MACアドレス"
+        example: "FF:FF:FF:FF:FF:FF"
+      ipmi_user_name:
+        type: string
+        description: "IPMI ユーザ名"
+        example: "admin"
+      ipmi_password:
+        type: string
+        description: "IPMI パスワード"
+        example: "admin"
