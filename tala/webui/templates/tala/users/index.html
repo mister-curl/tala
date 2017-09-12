@@ -4,7 +4,7 @@
 {% block content %}
 <h1>Users</h1>
 <div class="btn-group">
-    <input type="button" class="btn btn-success" value="Add" onClick="location.href='{% url 'webui:user-create' %}'">
+    <button class="btn btn-primary" onClick="location.href='{% url 'webui:user-create' %}'">Add</button>
 </div>
 <table class="table table-striped table-bordered">
   <thead>
@@ -25,10 +25,10 @@
       <td>{{ user.email }}</td>
       <td>{{ user.last_login }}</td>
       <td>
-          <input type="button" class="btn" value="Edit" onClick="location.href='{% url 'webui:user-edit' pk=user.id %}'">
+        <button class="btn btn-info" onClick="location.href='{% url 'webui:user-edit' pk=user.id %}'">Edit</button>
       </td>
       <td>
-          <input type="button" class="btn" value="Delete" onClick="location.href='{% url 'webui:user-create' %}'">
+        <button class="btn btn-danger" onClick="location.href='{% url 'webui:user-create' %}'">Delete</button>
       </td>
     </tr>
     {% endfor %}
