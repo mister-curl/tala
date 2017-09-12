@@ -5,7 +5,7 @@ from core.utils.my_cerely import get_app
 
 django.setup()
 
-SCRIPT_ROOT_DIR_PATH = '/'
+SCRIPT_ROOT_DIR_PATH = '/opt/tala/'
 BASH = '/bin/bash'
 
 app = get_app()
@@ -24,9 +24,17 @@ def get_bare_metal_info(host_id):
     """
 
     command = [BASH, SCRIPT_ROOT_DIR_PATH + 'bmgetinfo.sh', '-H', str(host_id), ]
-    process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout = process.stdout.decode('utf-8')
-    stderr = process.stderr.decode('utf-8')
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
 
 
 @app.task
@@ -37,9 +45,17 @@ def create_bare_metal(host_id, distribution, username):
     """
 
     command = [BASH, SCRIPT_ROOT_DIR_PATH + 'bmcreate.sh', '-H', str(host_id), '-d', distribution, '-U', username]
-    process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout = process.stdout.decode('utf-8')
-    stderr = process.stderr.decode('utf-8')
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
 
 
 @app.task
@@ -50,9 +66,17 @@ def create_kvm_hyper_visor(host_id):
     """
 
     command = [BASH, SCRIPT_ROOT_DIR_PATH + 'kvmcreate.sh', '-H', str(host_id)]
-    process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout = process.stdout.decode('utf-8')
-    stderr = process.stderr.decode('utf-8')
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
 
 
 @app.task
@@ -69,7 +93,14 @@ def create_virtual_machine(host_id, node_name):
 
     command = [BASH, SCRIPT_ROOT_DIR_PATH + 'vmcreate.sh', '-H', str(host_id), '-n', node_name, '-c', str(allocate_cpu),
                '-m', str(allocate_memory_size), '-d', str(allocate_disk_size), '-o', vm_os, '-p', vm_password]
-
-    process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout = process.stdout.decode('utf-8')
-    stderr = process.stderr.decode('utf-8')
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
