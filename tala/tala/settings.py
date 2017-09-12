@@ -136,3 +136,9 @@ LOGIN_REDIRECT_URL = '/ui'
 LOGOUT_URL = '/ui/logout'
 
 LOGIN_URL = '/ui/login'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
