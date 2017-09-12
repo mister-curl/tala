@@ -32,7 +32,7 @@
           <button class="btn btn-info" onClick="location.href='{% url 'webui:node-edit' pk=node.id %}'">Edit</button>
       </td>
       <td>
-          <button class="btn btn-danger" onClick="location.href='{% url 'webui:node-create' %}'">Delete</button>
+          <button class="btn btn-danger" onClick="location.href='{% url 'webui:node-delete' pk=node.id %}'">Delete</button>
       </td>
     </tr>
     {% endfor %}
