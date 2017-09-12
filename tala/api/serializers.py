@@ -8,7 +8,7 @@ from core.models import Metrics
 class NodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Node
-        fields = ('id', 'name', )
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
