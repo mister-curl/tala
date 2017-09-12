@@ -45,11 +45,9 @@ class NodeGraphViewSet(BaseLineChartView,
 
     def get_labels(self):
         """Return 7 labels for the x-axis."""
-        # 1分
-        # 1時間
-        # 1日
-        # 1週間
-        return ["January", "February", "March", "April", "May", "June", "July"]
+        label_cpu = Metrics.objects.filter(node=self.node, metrics_type='cpu_load_average_1m').order_by(
+            '-created_date')[:7].values_list('date', flat=True)
+        return list(label_cpu)
 
     def get_providers(self):
         if self.graph_type == "network":
@@ -77,21 +75,28 @@ class NodeGraphViewSet(BaseLineChartView,
             network_outgoing = list(network_outgoing)
             return [network_incoming, network_outgoing]
         elif self.graph_type == "cpu":
-            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+            cpu_load_average_1m = Metrics.objects.filter(node=self.node, metrics_type='cpu_load_average_1m').order_by(
                 '-created_date')[:7].values_list('value', flat=True)
-            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+            cpu_load_average_5m = Metrics.objects.filter(node=self.node, metrics_type='cpu_load_average_5m').order_by(
                 '-created_date')[:7].values_list('value', flat=True)
-            network_incoming = list(network_incoming)
-            network_outgoing = list(network_outgoing)
-            return [network_incoming, network_outgoing, network_outgoing]
+            cpu_load_average_15m = Metrics.objects.filter(node=self.node, metrics_type='cpu_load_average_15m').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            cpu_load_average_1m = list(cpu_load_average_1m)
+            cpu_load_average_5m = list(cpu_load_average_5m)
+            cpu_load_average_15m = list(cpu_load_average_15m)
+
+            return [cpu_load_average_1m, cpu_load_average_5m, cpu_load_average_15m]
         elif self.graph_type == "memory":
-            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+            memory_total = Metrics.objects.filter(node=self.node, metrics_type='memory_total').order_by(
                 '-created_date')[:7].values_list('value', flat=True)
-            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+            memory_used = Metrics.objects.filter(node=self.node, metrics_type='memory_used').order_by(
                 '-created_date')[:7].values_list('value', flat=True)
-            network_incoming = list(network_incoming)
-            network_outgoing = list(network_outgoing)
-            return [network_incoming, network_outgoing, network_outgoing]
+            memory_free = Metrics.objects.filter(node=self.node, metrics_type='memory_free').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            memory_total = list(memory_total)
+            memory_used = list(memory_used)
+            memory_free = list(memory_free)
+            return [memory_total, memory_used, memory_free]
 
 
         """Return 3 datasets to plot."""
