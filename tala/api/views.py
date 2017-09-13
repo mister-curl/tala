@@ -46,6 +46,17 @@ class NodeViewSet(viewsets.GenericViewSet,
         node.save()
         return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
 
+    @detail_route(methods=["POST"])
+    def ip_address(self, request, pk=None):
+        try:
+            node = Node.objects.get(id=pk)
+            node_ip_address = self.request.data['ip_address']
+        except:
+            return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+        node.ip_address = node_ip_address
+        node.save()
+        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+
 
 class NodeGraphViewSet(BaseLineChartView,
                        viewsets.GenericViewSet,
