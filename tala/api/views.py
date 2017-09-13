@@ -31,6 +31,17 @@ class NodeViewSet(viewsets.GenericViewSet,
         node.save()
         return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
 
+    @detail_route(methods=["POST"])
+    def power(self, request, pk=None):
+        try:
+            node = Node.objects.get(id=pk)
+            node_power = self.request.data['power']
+        except:
+            return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+        node.power = node_power
+        node.save()
+        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+
 
 class NodeGraphViewSet(BaseLineChartView,
                        viewsets.GenericViewSet,
