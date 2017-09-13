@@ -2,7 +2,6 @@ import json
 import subprocess
 
 import django
-import requests
 from core.utils.my_cerely import get_app
 
 django.setup()
@@ -56,9 +55,7 @@ def create_bare_metal(host_id, distribution, username):
         stderr = process.stderr.decode('utf-8')
         print(stdout)
         print(stderr)
-        requests.post('http://59.106.215.39:8000/tala/api/v1/nodes/{0}/status/'.format(host_id), data=json.dumps({"status": "BUILD FAILED"}))
         return False
-    requests.post('http://59.106.215.39:8000/tala/api/v1/nodes/{0}/status/'.format(host_id), data=json.dumps({"status": "READY"}))
     return True
 
 
@@ -79,10 +76,7 @@ def create_kvm_hyper_visor(host_id):
         stderr = process.stderr.decode('utf-8')
         print(stdout)
         print(stderr)
-        requests.post('http://59.106.215.39:8000/tala/api/v1/nodes/{0}/status/'.format(host_id),
-                      data=json.dumps({"status": "BUILD FAILED"}))
         return False
-    requests.post('http://59.106.215.39:8000/tala/api/v1/nodes/{0}/status/'.format(host_id), data=json.dumps({"status": "KVM_READY"}))
     return True
 
 
