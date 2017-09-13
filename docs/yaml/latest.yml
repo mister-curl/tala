@@ -30,6 +30,29 @@ paths:
         200:
           description: OK
 
+  /nodes/{id}/power/:
+    post:
+      summary: "対象のノードの電源状態を変更します"
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Node ID"
+          required: true
+          type: integer
+        - name: "body"
+          in: body
+          schema:
+            properties:
+              status:
+                type: string
+                description: "変更後の電源状態"
+                example: "ON"
+                enum: ["ON", "OFF"]
+      responses:
+        200:
+          description: OK
+
   /nodes/{id}/metrics/:
     get:
       summary: "対象のノードのメトリクス情報を取得します"
