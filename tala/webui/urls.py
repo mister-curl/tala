@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^nodes/(?P<pk>[0-9]+)/$', views.NodeView.as_view(), name='node'),
 
     url(r'^virtualmachines/$', views.VirtualMachinesView.as_view(), name='virtualmachines'),
+    url(r'^virtualmachines/create$', views.VirtualMachineCreateView.as_view(), name='virtualmachine-create'),
     url(r'^virtualmachines/(?P<pk>[0-9]+)/$', views.VirtualMachineView.as_view(), name='virtualmachine'),
 
     url(r'^users/$', views.UsersView.as_view(), name='users'),
