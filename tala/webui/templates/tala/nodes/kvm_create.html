@@ -1,7 +1,7 @@
 {% extends 'adminlte/base.html' %}
-{% block title %}Node : {{ object.name }}{% endblock %}
+{% block title %}Node : {{ object.username }}{% endblock %}
 {% block content %}
-<h1>OS Install</h1>
+<h1>Create KVM</h1>
 <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Done" />
