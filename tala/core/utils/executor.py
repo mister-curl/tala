@@ -6,7 +6,7 @@ from core.utils.my_cerely import get_app
 
 django.setup()
 
-SCRIPT_ROOT_DIR_PATH = '/opt/tala/'
+SCRIPT_ROOT_DIR_PATH = '/opt/tala/bin/'
 BASH = '/bin/bash'
 
 app = get_app()
