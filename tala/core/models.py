@@ -10,6 +10,7 @@ class Node(models.Model):
     mac_address = models.CharField(max_length=200, blank=True)
     os = models.CharField(max_length=200, blank=True)
     status = models.CharField(max_length=200, blank=True)
+    power = models.CharField(max_length=200, blank=True)
     type = models.CharField(max_length=200, blank=True)
     ipmi_ip_address = models.GenericIPAddressField(protocol='IPv4', null=True, blank=True)
     ipmi_mac_address = models.CharField(max_length=200, blank=True)
@@ -28,6 +29,7 @@ class VirtualMachine(models.Model):
     mac_address = models.CharField(max_length=200, blank=True)
     os = models.CharField(max_length=200, blank=True)
     status = models.CharField(max_length=200, blank=True)
+    power = models.CharField(max_length=200, blank=True)
     host_server = models.ForeignKey(Node, related_name='virtual_machines')
 
 
