@@ -16,6 +16,7 @@ from core.models import User
 from core.admin import UserCreateForm
 
 from webui.forms.node_os_install_form import NodeOsInstallForm
+from webui.forms.node_kvm_create import NodeKvmCreateForm
 
 
 def login(request):
@@ -144,4 +145,15 @@ class NodeOsInstall(FormView):
         from core.utils.executor import create_bare_metal
         create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
         node = Node.objects.get(id=self.kwargs['pk'])
+        return HttpResponseRedirect('/ui/nodes/')
+
+
+class NodeKvmCreate(FormView):
+    template_name = 'tala/nodes/kvm_create.html'
+    form_class = NodeKvmCreateForm
+    success_url = "/ui/nodes/"
+
+    def form_valid(self, form):
+        from core.utils.executor import create_kvm_hyper_visor
+        create_kvm_hyper_visor.delay(self.kwargs['pk'])
         return HttpResponseRedirect('/ui/nodes/')

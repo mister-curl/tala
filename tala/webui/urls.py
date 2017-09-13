@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^nodes/(?P<pk>[0-9]+)/edit/$', views.NodeUpdate.as_view(), name='node-edit'),
     url(r'^nodes/(?P<pk>[0-9]+)/delete/$', views.NodeDelete.as_view(), name='node-delete'),
     url(r'^nodes/(?P<pk>[0-9]+)/install/$', views.NodeOsInstall.as_view(), name='node-install'),
+    url(r'^nodes/(?P<pk>[0-9]+)/kvm/$', views.NodeKvmCreate.as_view(), name='node-kvm'),
     url(r'^nodes/(?P<pk>[0-9]+)/$', views.NodeView.as_view(), name='node'),
 
     url(r'^virtualmachines/$', views.VirtualMachinesView.as_view(), name='virtualmachines'),
