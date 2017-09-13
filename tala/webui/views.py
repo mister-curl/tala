@@ -18,6 +18,8 @@ from core.admin import UserCreateForm
 from webui.forms.node_os_install_form import NodeOsInstallForm
 from webui.forms.node_kvm_create import NodeKvmCreateForm
 
+from webui.forms.virtual_machine_create import VirtualMachineCreateForm
+
 
 def login(request):
     return render(request, 'tala/auth/login.html')
@@ -157,3 +159,9 @@ class NodeKvmCreate(FormView):
         from core.utils.executor import create_kvm_hyper_visor
         create_kvm_hyper_visor.delay(self.kwargs['pk'])
         return HttpResponseRedirect('/ui/nodes/')
+
+
+class VirtualMachineCreateView(CreateView):
+    form_class = VirtualMachineCreateForm
+    template_name = 'tala/virtual_machines/create.html'
+    success_url = "/ui/virtualmachines/"
