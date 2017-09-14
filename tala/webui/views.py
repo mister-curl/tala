@@ -32,7 +32,8 @@ def logout(request):
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+    context = {'node_count': Node.objects.all().count(), 'vm_count': VirtualMachine.objects.all().count()}
+    return render(request, 'tala/index.html', context)
 
 
 def test(request):
@@ -41,6 +42,11 @@ def test(request):
 
 def image(request):
     return render(request, 'images/index.html')
+
+
+class IndexView(LoginRequiredMixin, ListView):
+    model = Node
+    template_name = 'tala/index.html'
 
 
 class NodesView(LoginRequiredMixin, ListView):
