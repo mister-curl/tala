@@ -22,6 +22,12 @@
     </button>
 </div>
 
+<div class="btn-group">
+    <button class="btn btn-primary" onClick="location.href='{% url 'webui:node-power-on' pk=node.id %}'">On</button>
+    <button class="btn btn-success" onClick="location.href='{% url 'webui:node-power-off' pk=node.id %}'">Off</button>
+    <button class="btn btn-danger right" onClick="location.href='{% url 'webui:node-power-restart' pk=node.id %}'">Restart</button>
+</div>
+
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab_1" data-toggle="tab">Info</a></li>
