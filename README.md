@@ -1,7 +1,5 @@
 # tala
 
-One Paragraph of project description goes here
-
 tala is a management tool to easily manage physical servers and virtual machines.
 
 ### Prerequisites
