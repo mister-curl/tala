@@ -105,3 +105,23 @@ def create_virtual_machine(host_id, node_name):
         print(stderr)
         return False
     return True
+
+
+@app.task
+def get_power_for_node(host_id):
+    """
+    電源状態を取得します
+    """
+
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'power.sh', '-H', str(host_id), '-O', 'status']
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
