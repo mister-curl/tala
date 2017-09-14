@@ -15,6 +15,7 @@
       <th>Power</th>
       <th>Status</th>
       <th>Type</th>
+      <th>VNC</th>
       <th></th>
       <th></th>
     </tr>
@@ -28,6 +29,11 @@
       <td>{{ node.power }}</td>
       <td>{{ node.status }}</td>
       <td>{{ node.type }}</td>
+      <td>
+        <a href="{% url 'webui:index' %}">
+            <i class="fa fa-tv"></i>
+        </a>
+      </td>
       <td>
           <button class="btn btn-info" onClick="location.href='{% url 'webui:node-edit' pk=node.id %}'">Edit</button>
       </td>

@@ -52,18 +52,17 @@
           <th>VMName</th>
           <th>IP Address</th>
           <th>Power</th>
-          <th></th>
+          <th>TYPE</th>
         </tr>
       </thead>
       <tbody>
         {% for virtual_machine in node.virtual_machines.all %}
         <tr>
-          <td><a href="{{ virtual_machine.id }}/">{{ virtual_machine.id }}</a></td>
-          <td><a href="{{ virtual_machine.id }}/">{{ virtual_machine.name }}</a></td>
-          <td>xxx.xxx.xxx.xxx</td>
+          <td><a href="{% url 'webui:virtualmachine' pk=virtual_machine.id %}">{{ virtual_machine.id }}</a></td>
+          <td><a href="{% url 'webui:virtualmachine' pk=virtual_machine.id %}">{{ virtual_machine.name }}</a></td>
+          <td>{{ virtual_machine.ip_address}}</td>
           <td>On</td>
-          <td>KVM</td>
-          <td>EDIT</td>
+          <td>VM</td>
         </tr>
         {% endfor %}
       </tbody>
