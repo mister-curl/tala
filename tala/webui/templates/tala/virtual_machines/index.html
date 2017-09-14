@@ -14,6 +14,7 @@
           <th>IP Address</th>
           <th>Power</th>
           <th>Status</th>
+          <th>VNC</th>
           <th></th>
           <th></th>
         </tr>
@@ -26,6 +27,11 @@
           <td>{{ virtual_machines.ip_address }}</td>
           <td>On</td>
           <td>{{ virtual_machines.status }}</td>
+          <td>
+        <a href="{% url 'webui:index' %}">
+            <i class="fa fa-tv"></i>
+        </a>
+      </td>
           <td>
         <button class="btn btn-info" onClick="location.href='{% url 'webui:user-edit' pk=user.id %}'">Edit</button>
       </td>
