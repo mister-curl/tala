@@ -69,7 +69,10 @@ class NodeGraphViewSet(BaseLineChartView,
         """Return 7 labels for the x-axis."""
         label_cpu = Metrics.objects.filter(node=self.node, metrics_type='cpu_load_average_1m').order_by(
             '-created_date')[:7].values_list('date', flat=True)
-        return list(label_cpu)
+        date_label = list()
+        for d in label_cpu:
+            date_label.append(d.strftime('%Y-%m-%d %H:%M:%S'))
+        return date_label[::-1]
 
     def get_providers(self):
         if self.graph_type == "network":
