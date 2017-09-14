@@ -138,6 +138,18 @@ class NodeDelete(DeleteView):
     success_url = '/ui/nodes/'
 
 
+class VirtualMachineDelete(DeleteView):
+    model = VirtualMachine
+    template_name = 'tala/nodes/delete.html'
+    success_url = '/ui/virtualmachines/'
+
+
+class UserDelete(DeleteView):
+    model = User
+    template_name = 'tala/nodes/delete.html'
+    success_url = '/ui/users/'
+
+
 class NodeOsInstall(FormView):
     template_name = 'tala/nodes/os_install_form.html'
     form_class = NodeOsInstallForm
