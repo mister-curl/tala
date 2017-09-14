@@ -30,7 +30,7 @@
         <button class="btn btn-info" onClick="location.href='{% url 'webui:user-edit' pk=user.id %}'">Edit</button>
       </td>
       <td>
-        <button class="btn btn-danger" onClick="location.href='{% url 'webui:user-create' %}'">Delete</button>
+        <button class="btn btn-danger" onClick="location.href='{% url 'webui:virtualmachine-delete' pk=virtual_machines.id %}'">Delete</button>
       </td>
         </tr>
         {% endfor %}
