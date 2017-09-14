@@ -125,3 +125,23 @@ def get_power_for_node(host_id):
         print(stderr)
         return False
     return True
+
+
+@app.task
+def power_control_for_node(host_id, state):
+    """
+    電源状態を任意の状態に変更します
+    """
+
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'power.sh', '-H', str(host_id), '-O', state]
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
