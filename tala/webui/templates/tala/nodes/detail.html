@@ -22,6 +22,12 @@
     </button>
 </div>
 
+<div class="btn-group">
+    <button class="btn btn-primary" onClick="location.href='{% url 'webui:node-power-on' pk=node.id %}'">On</button>
+    <button class="btn btn-success" onClick="location.href='{% url 'webui:node-power-off' pk=node.id %}'">Off</button>
+    <button class="btn btn-danger right" onClick="location.href='{% url 'webui:node-power-restart' pk=node.id %}'">Restart</button>
+</div>
+
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab_1" data-toggle="tab">Info</a></li>
@@ -175,10 +181,8 @@
                     <tbody>
                     {% for virtual_machine in node.virtual_machines.all %}
                     <tr>
-                        <td><a href="{% url 'webui:virtualmachine' pk=virtual_machine.id %}">{{ virtual_machine.id
-                            }}</a></td>
-                        <td><a href="{% url 'webui:virtualmachine' pk=virtual_machine.id %}">{{ virtual_machine.name
-                            }}</a></td>
+                        <td><a href="{% url 'webui:virtualmachine' pk=virtual_machine.id %}">{{ virtual_machine.id }}</a></td>
+                        <td><a href="{% url 'webui:virtualmachine' pk=virtual_machine.id %}">{{ virtual_machine.name }}</a></td>
                         <td>{{ virtual_machine.ip_address}}</td>
                         <td>On</td>
                         <td>VM</td>
