@@ -57,15 +57,15 @@ class NodeViewSet(viewsets.GenericViewSet,
         node.save()
         return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
 
-    @detail_route(methods=["GET"], url_path='status-get-for-node')
+    @detail_route(methods=["GET"])
     def status(self, request, pk=None):
-        pass
+        return Response({"status": Node.objects.get(id=self.kwargs['pk']).status})
 
-    @detail_route(methods=["GET"], url_path='power-get-for-node')
+    @detail_route(methods=["GET"])
     def power(self, request, pk=None):
         from core.utils.executor import get_power_for_node
         get_power_for_node.delay(self.kwargs['pk'])
-        return Node.objects.get(id=self.kwargs['pk']).power
+        return Response({"power": Node.objects.get(id=self.kwargs['pk']).power})
 
 
 class NodeGraphViewSet(BaseLineChartView,
