@@ -25,7 +25,9 @@
 <div class="btn-group">
     <button class="btn btn-primary" onClick="location.href='{% url 'webui:node-power-on' pk=node.id %}'">On</button>
     <button class="btn btn-success" onClick="location.href='{% url 'webui:node-power-off' pk=node.id %}'">Off</button>
-    <button class="btn btn-danger right" onClick="location.href='{% url 'webui:node-power-restart' pk=node.id %}'">Restart</button>
+    <button class="btn btn-danger right" onClick="location.href='{% url 'webui:node-power-restart' pk=node.id %}'">
+        Restart
+    </button>
 </div>
 
 <div class="nav-tabs-custom">
@@ -56,7 +58,7 @@
                     </tr>
                     <tr>
                         <th>Power</th>
-                        <td>On</td>
+                        <td id="power_status">None</td>
                     </tr>
                     <tr>
                         <th>Status</th>
@@ -122,46 +124,24 @@
                         type: 'line', data: data
                     });
                 });
-
-                </script>
-                <script type="text/javascript">
                 $.get('/tala/api/v1/nodes/{{ object.id }}/graphs/memory/', function(data) {
                     var ctx = $("#MEMORYChart").get(0).getContext("2d");
                     new Chart(ctx, {
                         type: 'line', data: data
                     });
                 });
-
-                </script>
-                <script type="text/javascript">
                 $.get('/tala/api/v1/nodes/{{ object.id }}/graphs/disk/', function(data) {
                     var ctx = $("#DISKIOChart").get(0).getContext("2d");
                     new Chart(ctx, {
                         type: 'line', data: data
                     });
                 });
-
-                </script>
-                <script type="text/javascript">
                 $.get('/tala/api/v1/nodes/{{ object.id }}/graphs/network/', function(data) {
                     var ctx = $("#NETWORKChart").get(0).getContext("2d");
                     new Chart(ctx, {
                         type: 'line', data: data
                     });
                 });
-
-                </script>
-                <script>
-                $('#modal').on('show.bs.modal', function (event) {
-                    var modal = $(this)
-                    $.ajax({
-                        url: "{% url 'webui:news-create' %}",
-                        context: document.body
-                    }).done(function(response) {
-                        modal.html(response);
-                    });
-                })
-
                 </script>
             </div>
         </div>
@@ -193,6 +173,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}
