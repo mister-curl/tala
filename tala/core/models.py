@@ -20,6 +20,11 @@ class Node(models.Model):
     def __str__(self):
         return self.name
 
+    def get_power_status(self):
+        from core.utils.executor import get_power_for_node
+        get_power_for_node.delay(self.pk)
+        return self.power
+
 
 class VirtualMachine(models.Model):
     name = models.CharField(max_length=200, blank=True)
