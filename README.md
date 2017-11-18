@@ -2,6 +2,10 @@
 
 tala is a management tool to easily manage physical servers and virtual machines.
 
+### API documentation
+
+https://mister-curl.github.io/tala/
+
 ### Prerequisites
 
 ```
