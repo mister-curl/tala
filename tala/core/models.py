@@ -16,6 +16,7 @@ class Node(models.Model):
     ipmi_mac_address = models.CharField(max_length=200, blank=True)
     ipmi_user_name = models.CharField(max_length=200, blank=True)
     ipmi_password = models.CharField(max_length=200, blank=True)
+    vnc_port = models.IntegerField("VNCポート番号", blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -27,6 +28,29 @@ class Node(models.Model):
 
 
 class VirtualMachine(models.Model):
+    CPU_CHOICES = (
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+    )
+
+    # MB
+    MEMORY_CHOICES = (
+        ('536870912', '512MB'),
+        ('1073741824', '1GB'),
+        ('2147483648', '2GB'),
+        ('4294967296', '4GB'),
+    )
+
+    # GB
+    DISK_CHOICES = (
+        ('10', '10GB'),
+        ('20', '20GB'),
+        ('50', '50GB'),
+        ('100', '100GB'),
+    )
+
     name = models.CharField(max_length=200, blank=True)
     description = models.CharField(max_length=200, blank=True)
     hostname = models.CharField(max_length=200, blank=True)
@@ -36,6 +60,11 @@ class VirtualMachine(models.Model):
     status = models.CharField(max_length=200, blank=True)
     power = models.CharField(max_length=200, blank=True)
     host_server = models.ForeignKey(Node, related_name='virtual_machines')
+    password = models.CharField("管理ユーザパスワード", max_length=200, blank=True)
+    allocate_cpu = models.CharField("割り当てCPUコア数", max_length=200, blank=True, choices=CPU_CHOICES)
+    allocate_memory = models.CharField("割り当てメモリ容量", max_length=200, blank=True, choices=MEMORY_CHOICES)
+    allocate_disk = models.CharField("割り当てディスク容量", max_length=200, blank=True, choices=DISK_CHOICES)
+    vnc_port = models.IntegerField("VNCポート番号", blank=True, null=True)
 
 
 class OS(models.Model):

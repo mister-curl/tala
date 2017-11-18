@@ -12,11 +12,14 @@ from api.serializers import MetricsSerializer
 
 from core.models import Metrics
 
+from core.models import VirtualMachine
+
+from api.serializers import VirtualMachineSerializer
+
 
 class NodeViewSet(viewsets.GenericViewSet,
                   mixins.RetrieveModelMixin,
                   mixins.ListModelMixin):
-
     queryset = Node.objects.all()
     serializer_class = NodeSerializer
 
@@ -98,8 +101,10 @@ class NodeGraphViewSet(BaseLineChartView,
 
     def get_data(self):
         if self.graph_type == "network":
-            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by('-created_date')[:7].values_list('value', flat=True)
-            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by('-created_date')[:7].values_list('value', flat=True)
+            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
+            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+                '-created_date')[:7].values_list('value', flat=True)
             network_incoming = list(network_incoming)
             network_outgoing = list(network_outgoing)
             return [network_incoming, network_outgoing]
@@ -135,7 +140,6 @@ class NodeGraphViewSet(BaseLineChartView,
             memory_free = list(memory_free)
             return [memory_total, memory_used, memory_free]
 
-
         """Return 3 datasets to plot."""
 
         return [[75, 44, 92, 11, 44, 95, 35],
@@ -155,7 +159,6 @@ class NodeGraphViewSet(BaseLineChartView,
 class UserViewSet(viewsets.GenericViewSet,
                   mixins.ListModelMixin,
                   mixins.RetrieveModelMixin):
-
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -172,7 +175,6 @@ class UserViewSet(viewsets.GenericViewSet,
 
 
 class MetricsViewSet(viewsets.ViewSet):
-
     serializer_class = MetricsSerializer
     queryset = Metrics.objects.all()
 
@@ -196,3 +198,57 @@ class MetricsViewSet(viewsets.ViewSet):
         queryset = Metrics.objects.filter(node=node_pk, metrics_type=pk)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+class VirtualMachineViewSet(viewsets.GenericViewSet,
+                            mixins.RetrieveModelMixin,
+                            mixins.ListModelMixin):
+
+    queryset = VirtualMachine.objects.all()
+    serializer_class = VirtualMachineSerializer
+
+    @detail_route(methods=["POST", "GET"])
+    def status(self, request, pk=None):
+        if request.method == "POST":
+            try:
+                virtualmachine = VirtualMachine.objects.get(id=pk)
+                node_status = self.request.data['status']
+            except:
+                return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            virtualmachine.status = node_status
+            virtualmachine.save()
+            return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        elif request.method == "GET":
+            return Response({"status": Node.objects.get(id=self.kwargs['pk']).status})
+        else:
+            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    @detail_route(methods=["POST", "GET"])
+    def power(self, request, pk=None):
+        if request.method == "POST":
+            try:
+                virtualmachine = VirtualMachine.objects.get(id=pk)
+                node_power = self.request.data['power']
+            except:
+                return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            virtualmachine.power = node_power
+            virtualmachine.save()
+            return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        elif request.method == "GET":
+            # TODO: 引数にVMかノードかを識別する情報を渡す
+            #from core.utils.executor import get_power_for_node
+            #get_power_for_node.delay(self.kwargs['pk'])
+            return Response({"power": Node.objects.get(id=self.kwargs['pk']).power})
+        else:
+            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    @detail_route(methods=["POST"])
+    def ip_address(self, request, pk=None):
+        try:
+            virtualmachine = VirtualMachine.objects.get(id=pk)
+            virtualmachine_ip_address = self.request.data['ip_address']
+        except:
+            return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+        virtualmachine.ip_address = virtualmachine_ip_address
+        virtualmachine.save()
+        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
