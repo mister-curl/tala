@@ -247,8 +247,10 @@ class VirtualMachineViewSet(viewsets.GenericViewSet,
         try:
             virtualmachine = VirtualMachine.objects.get(id=pk)
             virtualmachine_ip_address = self.request.data['ip_address']
+            virtualmachine_mac_address = self.request.data['mac_address']
         except:
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         virtualmachine.ip_address = virtualmachine_ip_address
+        virtualmachine.mac_address = virtualmachine_mac_address
         virtualmachine.save()
         return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
