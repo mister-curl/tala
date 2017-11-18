@@ -35,16 +35,21 @@ class NodeViewSet(viewsets.GenericViewSet,
         node.save()
         return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
 
-    @detail_route(methods=["POST"])
+    @detail_route(methods=["POST", "GET"])
     def power(self, request, pk=None):
-        try:
-            node = Node.objects.get(id=pk)
-            node_power = self.request.data['power']
-        except:
-            return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
-        node.power = node_power
-        node.save()
-        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        if request.method == "POST":
+            try:
+                node = Node.objects.get(id=pk)
+                node_power = self.request.data['power']
+            except:
+                return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            node.power = node_power
+            node.save()
+            return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        elif request.method == "GET":
+            from core.utils.executor import get_power_for_node
+            get_power_for_node.delay(self.kwargs['pk'])
+            return Response({"power": Node.objects.get(id=self.kwargs['pk']).power})
 
     @detail_route(methods=["POST"])
     def ip_address(self, request, pk=None):
@@ -60,12 +65,6 @@ class NodeViewSet(viewsets.GenericViewSet,
     @detail_route(methods=["GET"])
     def status(self, request, pk=None):
         return Response({"status": Node.objects.get(id=self.kwargs['pk']).status})
-
-    @detail_route(methods=["GET"])
-    def power(self, request, pk=None):
-        from core.utils.executor import get_power_for_node
-        get_power_for_node.delay(self.kwargs['pk'])
-        return Response({"power": Node.objects.get(id=self.kwargs['pk']).power})
 
 
 class NodeGraphViewSet(BaseLineChartView,
