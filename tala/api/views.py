@@ -20,20 +20,25 @@ class NodeViewSet(viewsets.GenericViewSet,
     queryset = Node.objects.all()
     serializer_class = NodeSerializer
 
-    @detail_route(methods=["POST"])
+    @detail_route(methods=["POST", "GET"])
     def status(self, request, pk=None):
-        try:
-            node = Node.objects.get(id=pk)
-            node_status = self.request.data['status']
-        except:
-            return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
-        if node_status == 'KVM_READY':
-            node.type = 'KVM'
-            node.status = 'READY'
+        if request.method == "POST":
+            try:
+                node = Node.objects.get(id=pk)
+                node_status = self.request.data['status']
+            except:
+                return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            if node_status == 'KVM_READY':
+                node.type = 'KVM'
+                node.status = 'READY'
+            else:
+                node.status = node_status
+            node.save()
+            return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        elif request.method == "GET":
+            return Response({"status": Node.objects.get(id=self.kwargs['pk']).status})
         else:
-            node.status = node_status
-        node.save()
-        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     @detail_route(methods=["POST", "GET"])
     def power(self, request, pk=None):
@@ -50,6 +55,8 @@ class NodeViewSet(viewsets.GenericViewSet,
             from core.utils.executor import get_power_for_node
             get_power_for_node.delay(self.kwargs['pk'])
             return Response({"power": Node.objects.get(id=self.kwargs['pk']).power})
+        else:
+            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     @detail_route(methods=["POST"])
     def ip_address(self, request, pk=None):
@@ -61,10 +68,6 @@ class NodeViewSet(viewsets.GenericViewSet,
         node.ip_address = node_ip_address
         node.save()
         return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
-
-    @detail_route(methods=["GET"])
-    def status(self, request, pk=None):
-        return Response({"status": Node.objects.get(id=self.kwargs['pk']).status})
 
 
 class NodeGraphViewSet(BaseLineChartView,
