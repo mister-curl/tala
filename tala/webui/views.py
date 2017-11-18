@@ -20,6 +20,10 @@ from webui.forms.node_kvm_create import NodeKvmCreateForm
 
 from webui.forms.virtual_machine_create import VirtualMachineCreateForm
 
+from webui.forms.node_power_off import NodePowerOffForm
+from webui.forms.node_power_on import NodePowerOnForm
+from webui.forms.node_power_restart import NodePowerRestartForm
+
 
 def login(request):
     return render(request, 'tala/auth/login.html')
@@ -183,3 +187,36 @@ class VirtualMachineCreateView(CreateView):
     form_class = VirtualMachineCreateForm
     template_name = 'tala/virtual_machines/create.html'
     success_url = "/ui/virtualmachines/"
+
+
+class NodePowerRestart(FormView):
+    template_name = 'tala/nodes/node_power_restart.html'
+    form_class = NodePowerRestartForm
+    success_url = "/ui/nodes/"
+
+    def form_valid(self, form):
+        from core.utils.executor import power_control_for_node
+        power_control_for_node.delay(self.kwargs['pk'], "restart")
+        return HttpResponseRedirect('/ui/nodes/')
+
+
+class NodePowerOn(FormView):
+    template_name = 'tala/nodes/node_power_on.html'
+    form_class = NodePowerOnForm
+    success_url = "/ui/nodes/"
+
+    def form_valid(self, form):
+        from core.utils.executor import power_control_for_node
+        power_control_for_node.delay(self.kwargs['pk'], "on")
+        return HttpResponseRedirect('/ui/nodes/')
+
+
+class NodePowerOff(FormView):
+    template_name = 'tala/nodes/node_power_off.html'
+    form_class = NodePowerOffForm
+    success_url = "/ui/nodes/"
+
+    def form_valid(self, form):
+        from core.utils.executor import power_control_for_node
+        power_control_for_node.delay(self.kwargs['pk'], "off")
+        return HttpResponseRedirect('/ui/nodes/')

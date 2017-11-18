@@ -13,9 +13,9 @@ urlpatterns = [
     url(r'^nodes/(?P<pk>[0-9]+)/install/$', views.NodeOsInstall.as_view(), name='node-install'),
     url(r'^nodes/(?P<pk>[0-9]+)/kvm/$', views.NodeKvmCreate.as_view(), name='node-kvm'),
 
-    url(r'^nodes/(?P<pk>[0-9]+)/on/$', views.NodeKvmCreate.as_view(), name='node-power-on'),
-    url(r'^nodes/(?P<pk>[0-9]+)/off/$', views.NodeKvmCreate.as_view(), name='node-power-off'),
-    url(r'^nodes/(?P<pk>[0-9]+)/restart/$', views.NodeKvmCreate.as_view(), name='node-power-restart'),
+    url(r'^nodes/(?P<pk>[0-9]+)/on/$', views.NodePowerOn.as_view(), name='node-power-on'),
+    url(r'^nodes/(?P<pk>[0-9]+)/off/$', views.NodePowerOff.as_view(), name='node-power-off'),
+    url(r'^nodes/(?P<pk>[0-9]+)/restart/$', views.NodePowerRestart.as_view(), name='node-power-restart'),
 
     url(r'^nodes/(?P<pk>[0-9]+)/$', views.NodeView.as_view(), name='node'),
 
