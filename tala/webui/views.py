@@ -138,6 +138,8 @@ class NodeCreate(CreateView):
         self.object = form.save()
         self.object.type = "Baremetal"
         self.object.save()
+        self.object.vnc_port = 11000 + self.object.id
+        self.object.save()
         return HttpResponseRedirect('/ui/nodes/')
 
 
@@ -195,6 +197,18 @@ class VirtualMachineCreateView(CreateView):
     form_class = VirtualMachineCreateForm
     template_name = 'tala/virtual_machines/create.html'
     success_url = "/ui/virtualmachines/"
+
+    def form_valid(self, form):
+        # TODO: VM作成処理を作る
+        #from core.utils.executor import create_bare_metal
+        #create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
+        self.object = form.save()
+        vm = self.object
+        vm.os = form.data['os']
+        vm.save()
+        vm.vnc_port = 10000 + vm.id
+        vm.save()
+        return HttpResponseRedirect('/ui/virtualmachines/')
 
 
 class NodePowerRestart(FormView):
