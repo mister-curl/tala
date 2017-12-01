@@ -169,6 +169,8 @@ class NodeOsInstall(FormView):
         from core.utils.executor import create_bare_metal
         create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
         node = Node.objects.get(id=self.kwargs['pk'])
+        node.os = form.data['os']
+        node.save()
         return HttpResponseRedirect('/ui/nodes/')
 
 
