@@ -45,7 +45,7 @@ def create_bare_metal(host_id, distribution, username):
     ベアメタル作成
     """
 
-    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'bmcreate.sh', '-H', str(host_id), '-d', distribution, '-U', username]
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'bmcreate.sh', '-H', str(host_id)]
     try:
         process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if process.returncode != 0:
