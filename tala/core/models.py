@@ -17,6 +17,7 @@ class Node(models.Model):
     ipmi_user_name = models.CharField(max_length=200, blank=True)
     ipmi_password = models.CharField(max_length=200, blank=True)
     vnc_port = models.IntegerField("VNCポート番号", blank=True, null=True)
+    password = models.CharField("管理ユーザパスワード", max_length=200, blank=True)
 
     def __str__(self):
         return self.name
