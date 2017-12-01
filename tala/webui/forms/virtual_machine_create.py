@@ -22,6 +22,5 @@ class VirtualMachineCreateForm(forms.ModelForm):
         vm = super(VirtualMachineCreateForm, self).save(commit=True)
         create_virtual_machine.delay(1, "test")
         if commit:
-            vm.vnc_port = vm.id + 10000
-            vm.save()
+            pass
         return vm

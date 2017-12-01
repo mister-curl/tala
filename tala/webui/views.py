@@ -130,7 +130,7 @@ class UserCreate(CreateView):
 
 class NodeCreate(CreateView):
     model = Node
-    fields = ['name', 'description', 'hostname', 'ipmi_ip_address', 'ipmi_mac_address', 'ipmi_user_name', 'ipmi_password']
+    fields = ['name', 'description', 'hostname', 'ipmi_ip_address', 'ipmi_mac_address', 'ipmi_user_name', 'ipmi_password', ]
     template_name = 'tala/nodes/create.html'
     success_url = "/ui/nodes/"
 
@@ -178,6 +178,7 @@ class NodeOsInstall(FormView):
         create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
         node = Node.objects.get(id=self.kwargs['pk'])
         node.os = form.data['os']
+        node.password = form.data['password']
         node.save()
         return HttpResponseRedirect('/ui/nodes/')
 
@@ -205,6 +206,7 @@ class VirtualMachineCreateView(CreateView):
         self.object = form.save()
         vm = self.object
         vm.os = form.data['os']
+        vm.password = form.data['password']
         vm.save()
         vm.vnc_port = 10000 + vm.id
         vm.save()
