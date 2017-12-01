@@ -140,6 +140,9 @@ class NodeCreate(CreateView):
         self.object.save()
         self.object.vnc_port = 11000 + self.object.id
         self.object.save()
+        # ベアメタルの情報を取得
+        from core.utils.executor import get_bare_metal_info
+        get_bare_metal_info.delay(self.object.id)
         return HttpResponseRedirect('/ui/nodes/')
 
 
