@@ -10,3 +10,4 @@ class NodeOsInstallForm(forms.Form):
 
     os = forms.ChoiceField(widget=Select, choices=OS_CHOICES)
     username = forms.CharField(max_length=100)
+    password = forms.CharField(max_length=100, widget=forms.PasswordInput())
