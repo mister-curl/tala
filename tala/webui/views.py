@@ -134,6 +134,12 @@ class NodeCreate(CreateView):
     template_name = 'tala/nodes/create.html'
     success_url = "/ui/nodes/"
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.type = "Baremetal"
+        self.object.save()
+        return HttpResponseRedirect('/ui/nodes/')
+
 
 class NodeUpdate(UpdateView):
     model = Node
@@ -169,6 +175,8 @@ class NodeOsInstall(FormView):
         from core.utils.executor import create_bare_metal
         create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
         node = Node.objects.get(id=self.kwargs['pk'])
+        node.os = form.data['os']
+        node.save()
         return HttpResponseRedirect('/ui/nodes/')
 
 
