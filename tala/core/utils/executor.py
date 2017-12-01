@@ -113,7 +113,7 @@ def get_power_for_node(host_id):
     電源状態を取得します
     """
 
-    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'power.sh', '-H', str(host_id), '-O', 'status']
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'power.sh', '-H', str(host_id), '-O', 'status', '-T', 'bm']
     try:
         process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if process.returncode != 0:
@@ -133,7 +133,7 @@ def power_control_for_node(host_id, state):
     電源状態を任意の状態に変更します
     """
 
-    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'power.sh', '-H', str(host_id), '-O', state]
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'power.sh', '-H', str(host_id), '-O', state, '-T', 'vm']
     try:
         process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if process.returncode != 0:
