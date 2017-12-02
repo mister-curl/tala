@@ -21,7 +21,6 @@ class VirtualMachineCreateForm(forms.ModelForm):
     def save(self, commit=True):
         # Save the provided password in hashed format
         vm = super(VirtualMachineCreateForm, self).save(commit=True)
-        create_virtual_machine.delay(1, "test")
         if commit:
             pass
         return vm
