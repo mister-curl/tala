@@ -230,9 +230,6 @@ class VirtualMachineCreateView(CreateView):
     success_url = "/ui/virtualmachines/"
 
     def form_valid(self, form):
-        # TODO: VM作成処理を作る
-        #from core.utils.executor import create_bare_metal
-        #create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
         self.object = form.save()
         vm = self.object
         vm.os = form.data['os']
@@ -240,6 +237,8 @@ class VirtualMachineCreateView(CreateView):
         vm.save()
         vm.vnc_port = 10000 + vm.id
         vm.save()
+        from core.utils.executor import create_virtual_machine
+        create_virtual_machine.delay(vm.id)
         return HttpResponseRedirect('/ui/virtualmachines/')
 
 
