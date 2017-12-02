@@ -81,6 +81,27 @@ def create_kvm_hyper_visor(host_id):
 
 
 @app.task
+def create_docker(host_id):
+    """
+    ベアメタルサーバからDockerホストを作成します
+    BM→Dockerホスト化
+    """
+
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'condeploy.sh', '-H', str(host_id)]
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
+
+
+@app.task
 def create_virtual_machine(host_id, node_name):
     """
     KVMホスト上にVMを作成します。
