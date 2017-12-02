@@ -25,7 +25,7 @@
           <td><a href="{{ virtual_machines.id }}/">{{ virtual_machines.id }}</a></td>
           <td><a href="{{ virtual_machines.id }}/">{{ virtual_machines.name }}</a></td>
           <td>{{ virtual_machines.ip_address }}</td>
-          <td>On</td>
+          <td>{{ virtual_machines.power }}</td>
           <td>{{ virtual_machines.status }}</td>
           <td>
         <a href="{% url 'webui:index' %}">
