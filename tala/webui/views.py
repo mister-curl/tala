@@ -177,7 +177,7 @@ class NodeDelete(DeleteView):
 
 class VirtualMachineDelete(DeleteView):
     model = VirtualMachine
-    template_name = 'tala/nodes/delete.html'
+    template_name = 'tala/virtual_machines/delete.html'
     success_url = '/ui/virtualmachines/'
 
 
