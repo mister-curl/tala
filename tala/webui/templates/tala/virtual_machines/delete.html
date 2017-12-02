@@ -1,9 +1,9 @@
 {% extends 'adminlte/base.html' %}
 {% block title %}VirtualMachine : {{ object.name }}{% endblock %}
 {% block content %}
-<h1>Delete node</h1>
+<h1>Delete VirtualMachine</h1>
 <form action="" method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <p>Are you sure you want to delete "{{ object.name }}"?</p>
     <input type="submit" value="Confirm" />
 </form>
 {% endblock %}
