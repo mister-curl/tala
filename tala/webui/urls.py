@@ -22,7 +22,7 @@ urlpatterns = [
     # VirtualMachine
     url(r'^containers/$', views.ContainersView.as_view(), name='containers'),
     url(r'^containers/(?P<pk>[0-9]+)/$', views.ContainerView.as_view(), name='container'),
-    #url(r'^containers/create$', views.VirtualMachineCreateView.as_view(), name='container-create'),
+    url(r'^containers/create$', views.ContainersCreateView.as_view(), name='container-create'),
     #url(r'^containers/(?P<pk>[0-9]+)/delete/$', views.VirtualMachineDelete.as_view(), name='virtualmachine-delete'),
     #url(r'^containers/(?P<pk>[0-9]+)/on/$', views.VirtualMachineView.as_view(), name='vm-power-on'),
     #url(r'^containers/(?P<pk>[0-9]+)/off/$', views.VirtualMachineView.as_view(), name='vm-power-off'),
