@@ -87,7 +87,7 @@ def create_docker(host_id):
     BM→Dockerホスト化
     """
 
-    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'condeploy.sh', '-H', str(host_id)]
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'dockercreate.sh', '-H', str(host_id)]
     try:
         process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if process.returncode != 0:
