@@ -29,11 +29,12 @@ urlpatterns = [
     #url(r'^containers/(?P<pk>[0-9]+)/restart/$', views.VirtualMachineView.as_view(), name='vm-power-restart'),
 
     # Container
-    url(r'^virtualmachines/$', views.VirtualMachinesView.as_view(), name='virtualmachines'),
     url(r'^virtualmachines/create$', views.VirtualMachineCreateView.as_view(), name='virtualmachine-create'),
-    url(r'^virtualmachines/(?P<pk>[0-9]+)/delete/$', views.VirtualMachineDelete.as_view(),
-        name='virtualmachine-delete'),
+    url(r'^virtualmachines/$', views.VirtualMachinesView.as_view(), name='virtualmachines'),
     url(r'^virtualmachines/(?P<pk>[0-9]+)/$', views.VirtualMachineView.as_view(), name='virtualmachine'),
+    url(r'^virtualmachines/(?P<pk>[0-9]+)/edit/$', views.VirtualMachineUpdate.as_view(), name='virtualmachine-edit'),
+    url(r'^virtualmachines/(?P<pk>[0-9]+)/delete/$', views.VirtualMachineDelete.as_view(), name='virtualmachine-delete'),
+
 
     url(r'^users/$', views.UsersView.as_view(), name='users'),
     url(r'^users/create/$', views.UserCreate.as_view(), name='user-create'),

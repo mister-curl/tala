@@ -287,3 +287,10 @@ class ContainersCreateView(CreateView):
         #create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
         self.object = form.save()
         return HttpResponseRedirect('/ui/containers/')
+
+
+class VirtualMachineUpdate(UpdateView):
+    model = VirtualMachine
+    fields = ['name', 'description']
+    template_name = 'tala/virtual_machines/edit.html'
+    success_url = "/ui/virtualmachines/"
