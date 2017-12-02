@@ -24,6 +24,8 @@ from webui.forms.node_power_off import NodePowerOffForm
 from webui.forms.node_power_on import NodePowerOnForm
 from webui.forms.node_power_restart import NodePowerRestartForm
 
+from webui.forms.node_docker_create import NodeDockerCreateForm
+
 
 def login(request):
     return render(request, 'tala/auth/login.html')
@@ -194,6 +196,17 @@ class NodeKvmCreate(FormView):
     def form_valid(self, form):
         from core.utils.executor import create_kvm_hyper_visor
         create_kvm_hyper_visor.delay(self.kwargs['pk'])
+        return HttpResponseRedirect('/ui/nodes/')
+
+
+class NodeDockerCreate(FormView):
+    template_name = 'tala/nodes/docker_create.html'
+    form_class = NodeDockerCreateForm
+    success_url = "/ui/nodes/"
+
+    def form_valid(self, form):
+        from core.utils.executor import create_docker
+        create_docker.delay(self.kwargs['pk'])
         return HttpResponseRedirect('/ui/nodes/')
 
 
