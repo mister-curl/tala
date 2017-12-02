@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^nodes/(?P<pk>[0-9]+)/delete/$', views.NodeDelete.as_view(), name='node-delete'),
     url(r'^nodes/(?P<pk>[0-9]+)/install/$', views.NodeOsInstall.as_view(), name='node-install'),
     url(r'^nodes/(?P<pk>[0-9]+)/kvm/$', views.NodeKvmCreate.as_view(), name='node-kvm'),
+    url(r'^nodes/(?P<pk>[0-9]+)/docker/$', views.NodeDockerCreate.as_view(), name='node-docker'),
 
     url(r'^nodes/(?P<pk>[0-9]+)/on/$', views.NodePowerOn.as_view(), name='node-power-on'),
     url(r'^nodes/(?P<pk>[0-9]+)/off/$', views.NodePowerOff.as_view(), name='node-power-off'),
