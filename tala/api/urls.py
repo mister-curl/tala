@@ -6,6 +6,7 @@ from api import views
 router = routers.SimpleRouter()
 router.register(r'nodes', views.NodeViewSet)
 router.register(r'vms', views.VirtualMachineViewSet)
+router.register(r'containers', views.ContainersViewSet)
 router.register(r'users', views.UserViewSet)
 
 

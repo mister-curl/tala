@@ -16,6 +16,10 @@ from core.models import VirtualMachine
 
 from api.serializers import VirtualMachineSerializer
 
+from core.models import Container
+
+from api.serializers import ContainerSerializer
+
 
 class NodeViewSet(viewsets.GenericViewSet,
                   mixins.RetrieveModelMixin,
@@ -203,7 +207,6 @@ class MetricsViewSet(viewsets.ViewSet):
 class VirtualMachineViewSet(viewsets.GenericViewSet,
                             mixins.RetrieveModelMixin,
                             mixins.ListModelMixin):
-
     queryset = VirtualMachine.objects.all()
     serializer_class = VirtualMachineSerializer
 
@@ -236,8 +239,8 @@ class VirtualMachineViewSet(viewsets.GenericViewSet,
             return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
         elif request.method == "GET":
             # TODO: 引数にVMかノードかを識別する情報を渡す
-            #from core.utils.executor import get_power_for_node
-            #get_power_for_node.delay(self.kwargs['pk'])
+            # from core.utils.executor import get_power_for_node
+            # get_power_for_node.delay(self.kwargs['pk'])
             return Response({"power": Node.objects.get(id=self.kwargs['pk']).power})
         else:
             return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -262,4 +265,69 @@ class VirtualMachineViewSet(viewsets.GenericViewSet,
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         virtualmachine.mac_address = virtualmachine_mac_address
         virtualmachine.save()
+        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+
+
+class ContainersViewSet(viewsets.GenericViewSet,
+                        mixins.RetrieveModelMixin,
+                        mixins.ListModelMixin):
+
+    queryset = Container.objects.all()
+    serializer_class = ContainerSerializer
+
+    @detail_route(methods=["POST", "GET"])
+    def status(self, request, pk=None):
+        if request.method == "POST":
+            try:
+                container = Container.objects.get(id=pk)
+                container_status = self.request.data['status']
+            except:
+                return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            container.status = container_status
+            container.save()
+            return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        elif request.method == "GET":
+            return Response({"status": Container.objects.get(id=self.kwargs['pk']).status})
+        else:
+            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    @detail_route(methods=["POST", "GET"])
+    def power(self, request, pk=None):
+        if request.method == "POST":
+            try:
+                container = Container.objects.get(id=pk)
+                container_power = self.request.data['power']
+            except:
+                return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            container.power = container_power
+            container.save()
+            return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        elif request.method == "GET":
+            # TODO: 引数にVMかノードかを識別する情報を渡す
+            # from core.utils.executor import get_power_for_node
+            # get_power_for_node.delay(self.kwargs['pk'])
+            return Response({"power": Container.objects.get(id=self.kwargs['pk']).power})
+        else:
+            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    @detail_route(methods=["POST"])
+    def ip_address(self, request, pk=None):
+        try:
+            container = Container.objects.get(id=pk)
+            container_ip_address = self.request.data['ip_address']
+        except:
+            return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+        container.ip_address = container_ip_address
+        container.save()
+        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+
+    @detail_route(methods=["POST"])
+    def mac_address(self, request, pk=None):
+        try:
+            container = Container.objects.get(id=pk)
+            container_mac_address = self.request.data['mac_address']
+        except:
+            return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+        container.mac_address = container_mac_address
+        container.save()
         return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
