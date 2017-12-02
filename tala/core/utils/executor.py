@@ -102,19 +102,13 @@ def create_docker(host_id):
 
 
 @app.task
-def create_virtual_machine(host_id, node_name):
+def create_virtual_machine(vm_id):
     """
     KVMホスト上にVMを作成します。
     VM作成
     """
-    allocate_cpu = 2
-    allocate_memory_size = 1024
-    allocate_disk_size = 10
-    vm_os = 'ubuntu1604_x86-64'
-    vm_password = 'test'
 
-    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'vmcreate.sh', '-H', str(host_id), '-n', node_name, '-c', str(allocate_cpu),
-               '-m', str(allocate_memory_size), '-d', str(allocate_disk_size), '-o', vm_os, '-p', vm_password]
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'vmdeploy.sh', '-H', str(vm_id)]
     try:
         process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if process.returncode != 0:

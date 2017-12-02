@@ -42,7 +42,7 @@ def logout(request):
 
 @login_required
 def index(request):
-    context = {'node_count': Node.objects.all().count(), 'vm_count': VirtualMachine.objects.all().count()}
+    context = {'node_count': Node.objects.all().count(), 'vm_count': VirtualMachine.objects.all().count(), 'container_count': Container.objects.all().count()}
     return render(request, 'tala/index.html', context)
 
 
@@ -177,7 +177,7 @@ class NodeDelete(DeleteView):
 
 class VirtualMachineDelete(DeleteView):
     model = VirtualMachine
-    template_name = 'tala/nodes/delete.html'
+    template_name = 'tala/virtual_machines/delete.html'
     success_url = '/ui/virtualmachines/'
 
 
@@ -230,9 +230,6 @@ class VirtualMachineCreateView(CreateView):
     success_url = "/ui/virtualmachines/"
 
     def form_valid(self, form):
-        # TODO: VM作成処理を作る
-        #from core.utils.executor import create_bare_metal
-        #create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
         self.object = form.save()
         vm = self.object
         vm.os = form.data['os']
@@ -240,6 +237,8 @@ class VirtualMachineCreateView(CreateView):
         vm.save()
         vm.vnc_port = 10000 + vm.id
         vm.save()
+        from core.utils.executor import create_virtual_machine
+        create_virtual_machine.delay(vm.id)
         return HttpResponseRedirect('/ui/virtualmachines/')
 
 
@@ -287,3 +286,10 @@ class ContainersCreateView(CreateView):
         #create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
         self.object = form.save()
         return HttpResponseRedirect('/ui/containers/')
+
+
+class VirtualMachineUpdate(UpdateView):
+    model = VirtualMachine
+    fields = ['name', 'description']
+    template_name = 'tala/virtual_machines/edit.html'
+    success_url = "/ui/virtualmachines/"

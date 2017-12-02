@@ -25,7 +25,7 @@
           <td><a href="{{ virtual_machines.id }}/">{{ virtual_machines.id }}</a></td>
           <td><a href="{{ virtual_machines.id }}/">{{ virtual_machines.name }}</a></td>
           <td>{{ virtual_machines.ip_address }}</td>
-          <td>On</td>
+          <td>{{ virtual_machines.power }}</td>
           <td>{{ virtual_machines.status }}</td>
           <td>
         <a href="{% url 'webui:index' %}">
@@ -33,7 +33,7 @@
         </a>
       </td>
           <td>
-        <button class="btn btn-info" onClick="location.href='{% url 'webui:user-edit' pk=user.id %}'">Edit</button>
+        <button class="btn btn-info" onClick="location.href='{% url 'webui:virtualmachine-edit' pk=virtual_machines.id %}'">Edit</button>
       </td>
       <td>
         <button class="btn btn-danger" onClick="location.href='{% url 'webui:virtualmachine-delete' pk=virtual_machines.id %}'">Delete</button>
