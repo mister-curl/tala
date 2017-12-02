@@ -26,6 +26,8 @@ from webui.forms.node_power_restart import NodePowerRestartForm
 
 from webui.forms.node_docker_create import NodeDockerCreateForm
 
+from core.models import Container
+
 
 def login(request):
     return render(request, 'tala/auth/login.html')
@@ -73,6 +75,16 @@ class VirtualMachinesView(LoginRequiredMixin, ListView):
 class VirtualMachineView(LoginRequiredMixin, DetailView):
     model = VirtualMachine
     template_name = 'tala/virtual_machines/detail.html'
+
+
+class ContainersView(LoginRequiredMixin, ListView):
+    model = Container
+    template_name = 'tala/containers/index.html'
+
+
+class ContainerView(LoginRequiredMixin, DetailView):
+    model = Container
+    template_name = 'tala/containers/detail.html'
 
 
 class UsersView(LoginRequiredMixin, ListView):
