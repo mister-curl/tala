@@ -57,11 +57,27 @@ class NodeViewSet(viewsets.GenericViewSet,
                 return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
             node.power = node_power
             node.save()
-            return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+            return HttpResponse("Power change completed.", status=status.HTTP_202_ACCEPTED)
         elif request.method == "GET":
             from core.utils.executor import get_power_for_node
             get_power_for_node.delay(self.kwargs['pk'])
             return Response({"power": Node.objects.get(id=self.kwargs['pk']).power})
+        else:
+            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    @detail_route(methods=["POST", "GET"])
+    def type(self, request, pk=None):
+        if request.method == "POST":
+            try:
+                node = Node.objects.get(id=pk)
+                node_type = self.request.data['type']
+            except:
+                return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            node.type = node_type
+            node.save()
+            return HttpResponse("Type change completed.", status=status.HTTP_202_ACCEPTED)
+        elif request.method == "GET":
+            return Response({"status": Node.objects.get(id=self.kwargs['pk']).type})
         else:
             return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -74,7 +90,7 @@ class NodeViewSet(viewsets.GenericViewSet,
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         node.ip_address = node_ip_address
         node.save()
-        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        return HttpResponse("IP Address change completed.", status=status.HTTP_202_ACCEPTED)
 
     @detail_route(methods=["POST"])
     def mac_address(self, request, pk=None):
@@ -85,7 +101,7 @@ class NodeViewSet(viewsets.GenericViewSet,
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         node.mac_address = node_mac_address
         node.save()
-        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        return HttpResponse("MAC Address change completed.", status=status.HTTP_202_ACCEPTED)
 
 
 class NodeGraphViewSet(BaseLineChartView,
@@ -233,7 +249,23 @@ class VirtualMachineViewSet(viewsets.GenericViewSet,
             virtualmachine.save()
             return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
         elif request.method == "GET":
-            return Response({"status": Node.objects.get(id=self.kwargs['pk']).status})
+            return Response({"status": VirtualMachine.objects.get(id=self.kwargs['pk']).status})
+        else:
+            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    @detail_route(methods=["POST", "GET"])
+    def type(self, request, pk=None):
+        if request.method == "POST":
+            try:
+                virtualmachine = VirtualMachine.objects.get(id=pk)
+                virtualmachine_type = self.request.data['type']
+            except:
+                return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            virtualmachine.type = virtualmachine_type
+            virtualmachine.save()
+            return HttpResponse("Type change completed.", status=status.HTTP_202_ACCEPTED)
+        elif request.method == "GET":
+            return Response({"status": VirtualMachine.objects.get(id=self.kwargs['pk']).type})
         else:
             return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -247,12 +279,12 @@ class VirtualMachineViewSet(viewsets.GenericViewSet,
                 return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
             virtualmachine.power = node_power
             virtualmachine.save()
-            return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+            return HttpResponse("Power change completed.", status=status.HTTP_202_ACCEPTED)
         elif request.method == "GET":
             # TODO: 引数にVMかノードかを識別する情報を渡す
             # from core.utils.executor import get_power_for_node
             # get_power_for_node.delay(self.kwargs['pk'])
-            return Response({"power": Node.objects.get(id=self.kwargs['pk']).power})
+            return Response({"power": VirtualMachine.objects.get(id=self.kwargs['pk']).power})
         else:
             return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -265,7 +297,7 @@ class VirtualMachineViewSet(viewsets.GenericViewSet,
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         virtualmachine.ip_address = virtualmachine_ip_address
         virtualmachine.save()
-        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        return HttpResponse("IP Address change completed.", status=status.HTTP_202_ACCEPTED)
 
     @detail_route(methods=["POST"])
     def mac_address(self, request, pk=None):
@@ -276,7 +308,7 @@ class VirtualMachineViewSet(viewsets.GenericViewSet,
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         virtualmachine.mac_address = virtualmachine_mac_address
         virtualmachine.save()
-        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        return HttpResponse("MAC Address change completed.", status=status.HTTP_202_ACCEPTED)
 
 
 class ContainersViewSet(viewsets.GenericViewSet,
@@ -303,6 +335,22 @@ class ContainersViewSet(viewsets.GenericViewSet,
             return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     @detail_route(methods=["POST", "GET"])
+    def type(self, request, pk=None):
+        if request.method == "POST":
+            try:
+                container = Container.objects.get(id=pk)
+                container_type = self.request.data['type']
+            except:
+                return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+            container.type = container_type
+            container.save()
+            return HttpResponse("Type change completed.", status=status.HTTP_202_ACCEPTED)
+        elif request.method == "GET":
+            return Response({"status": Container.objects.get(id=self.kwargs['pk']).type})
+        else:
+            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    @detail_route(methods=["POST", "GET"])
     def power(self, request, pk=None):
         if request.method == "POST":
             try:
@@ -312,7 +360,7 @@ class ContainersViewSet(viewsets.GenericViewSet,
                 return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
             container.power = container_power
             container.save()
-            return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+            return HttpResponse("Power change completed.", status=status.HTTP_202_ACCEPTED)
         elif request.method == "GET":
             # TODO: 引数にVMかノードかを識別する情報を渡す
             # from core.utils.executor import get_power_for_node
@@ -330,7 +378,7 @@ class ContainersViewSet(viewsets.GenericViewSet,
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         container.ip_address = container_ip_address
         container.save()
-        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        return HttpResponse("IP Address change completed.", status=status.HTTP_202_ACCEPTED)
 
     @detail_route(methods=["POST"])
     def mac_address(self, request, pk=None):
@@ -341,4 +389,4 @@ class ContainersViewSet(viewsets.GenericViewSet,
             return HttpResponse({"error": "Not found."}, status=status.HTTP_404_NOT_FOUND)
         container.mac_address = container_mac_address
         container.save()
-        return HttpResponse("Status change completed.", status=status.HTTP_202_ACCEPTED)
+        return HttpResponse("MAC Address change completed.", status=status.HTTP_202_ACCEPTED)
