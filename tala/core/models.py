@@ -60,7 +60,7 @@ class VirtualMachine(models.Model):
     os = models.CharField(max_length=200, blank=True)
     status = models.CharField(max_length=200, blank=True)
     power = models.CharField(max_length=200, blank=True)
-    host_server = models.ForeignKey(Node, related_name='virtual_machines')
+    host_server = models.ForeignKey(Node, related_name='containers')
     password = models.CharField("管理ユーザパスワード", max_length=200, blank=True)
     allocate_cpu = models.CharField("割り当てCPUコア数", max_length=200, blank=True, choices=CPU_CHOICES)
     allocate_memory = models.CharField("割り当てメモリ容量", max_length=200, blank=True, choices=MEMORY_CHOICES)
