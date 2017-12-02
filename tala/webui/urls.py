@@ -6,27 +6,34 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^test_url/$', views.line_chart_json, name='line_chart_json'),
 
+    # Node
     url(r'^nodes/$', views.NodesView.as_view(), name='nodes'),
+    url(r'^nodes/(?P<pk>[0-9]+)/$', views.NodeView.as_view(), name='node'),
     url(r'^nodes/create/$', views.NodeCreate.as_view(), name='node-create'),
     url(r'^nodes/(?P<pk>[0-9]+)/edit/$', views.NodeUpdate.as_view(), name='node-edit'),
     url(r'^nodes/(?P<pk>[0-9]+)/delete/$', views.NodeDelete.as_view(), name='node-delete'),
     url(r'^nodes/(?P<pk>[0-9]+)/install/$', views.NodeOsInstall.as_view(), name='node-install'),
     url(r'^nodes/(?P<pk>[0-9]+)/kvm/$', views.NodeKvmCreate.as_view(), name='node-kvm'),
     url(r'^nodes/(?P<pk>[0-9]+)/docker/$', views.NodeDockerCreate.as_view(), name='node-docker'),
-
     url(r'^nodes/(?P<pk>[0-9]+)/on/$', views.NodePowerOn.as_view(), name='node-power-on'),
     url(r'^nodes/(?P<pk>[0-9]+)/off/$', views.NodePowerOff.as_view(), name='node-power-off'),
     url(r'^nodes/(?P<pk>[0-9]+)/restart/$', views.NodePowerRestart.as_view(), name='node-power-restart'),
 
-    url(r'^nodes/(?P<pk>[0-9]+)/$', views.NodeView.as_view(), name='node'),
+    # VirtualMachine
+    url(r'^containers/$', views.ContainersView.as_view(), name='containers'),
+    url(r'^containers/(?P<pk>[0-9]+)/$', views.ContainerView.as_view(), name='container'),
+    #url(r'^containers/create$', views.VirtualMachineCreateView.as_view(), name='container-create'),
+    #url(r'^containers/(?P<pk>[0-9]+)/delete/$', views.VirtualMachineDelete.as_view(), name='virtualmachine-delete'),
+    #url(r'^containers/(?P<pk>[0-9]+)/on/$', views.VirtualMachineView.as_view(), name='vm-power-on'),
+    #url(r'^containers/(?P<pk>[0-9]+)/off/$', views.VirtualMachineView.as_view(), name='vm-power-off'),
+    #url(r'^containers/(?P<pk>[0-9]+)/restart/$', views.VirtualMachineView.as_view(), name='vm-power-restart'),
 
+    # Container
     url(r'^virtualmachines/$', views.VirtualMachinesView.as_view(), name='virtualmachines'),
     url(r'^virtualmachines/create$', views.VirtualMachineCreateView.as_view(), name='virtualmachine-create'),
-    url(r'^virtualmachines/(?P<pk>[0-9]+)/delete/$', views.VirtualMachineDelete.as_view(), name='virtualmachine-delete'),
+    url(r'^virtualmachines/(?P<pk>[0-9]+)/delete/$', views.VirtualMachineDelete.as_view(),
+        name='virtualmachine-delete'),
     url(r'^virtualmachines/(?P<pk>[0-9]+)/$', views.VirtualMachineView.as_view(), name='virtualmachine'),
-    url(r'^virtualmachines/(?P<pk>[0-9]+)/on/$', views.VirtualMachineView.as_view(), name='vm-power-on'),
-    url(r'^virtualmachines/(?P<pk>[0-9]+)/off/$', views.VirtualMachineView.as_view(), name='vm-power-off'),
-    url(r'^virtualmachines/(?P<pk>[0-9]+)/restart/$', views.VirtualMachineView.as_view(), name='vm-power-restart'),
 
     url(r'^users/$', views.UsersView.as_view(), name='users'),
     url(r'^users/create/$', views.UserCreate.as_view(), name='user-create'),
