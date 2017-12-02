@@ -1,6 +1,6 @@
 {% extends 'adminlte/base.html' %}
 
-{% block title %}Node : {{ object.name }}{% endblock %}
+{% block title %}VirtualMachine : {{ object.name }}{% endblock %}
 {% load staticfiles %}
 <head>
     <!--[if lte IE 8]>
@@ -16,8 +16,9 @@
 
 <div class="btn-group">
     <button class="btn btn-primary">OS Install</button>
-    <button class="btn btn-success">Edit</button>
-    <button class="btn btn-danger right">Delete</button>
+    <button class="btn btn-info" onClick="location.href='{% url 'webui:virtualmachine-edit' pk=object.id %}'">Edit</button>
+    <button class="btn btn-danger right" onClick="location.href='{% url 'webui:virtualmachine-delete' pk=object.id %}'">Delete
+    </button>
 </div>
 
 
@@ -142,8 +143,6 @@
                 modal.html(response);
             });
         })
-
-
                 </script>
             </div>
         </div>
