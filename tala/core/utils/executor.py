@@ -166,3 +166,23 @@ def power_control_for_node(host_id, state):
         print(stderr)
         return False
     return True
+
+
+@app.task
+def create_container(container_id):
+    """
+    Dockerホスト上にContainerを作成します。
+    """
+
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'condeploy.sh', '-H', str(container_id)]
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
