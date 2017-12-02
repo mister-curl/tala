@@ -42,7 +42,7 @@ def logout(request):
 
 @login_required
 def index(request):
-    context = {'node_count': Node.objects.all().count(), 'vm_count': VirtualMachine.objects.all().count()}
+    context = {'node_count': Node.objects.all().count(), 'vm_count': VirtualMachine.objects.all().count(), 'container_count': Container.objects.all().count()}
     return render(request, 'tala/index.html', context)
 
 
