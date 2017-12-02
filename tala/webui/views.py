@@ -28,6 +28,8 @@ from webui.forms.node_docker_create import NodeDockerCreateForm
 
 from core.models import Container
 
+from webui.forms.container_create import ContainerCreateForm
+
 
 def login(request):
     return render(request, 'tala/auth/login.html')
@@ -116,7 +118,7 @@ class LineChartJSONView(BaseLineChartView):
 #line_chart = TemplateView.as_view(template_name='line_chart.html')
 line_chart_json = LineChartJSONView.as_view()
 
-from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView, CreateView
 from django.shortcuts import render
 
 
@@ -272,3 +274,16 @@ class NodePowerOff(FormView):
         from core.utils.executor import power_control_for_node
         power_control_for_node.delay(self.kwargs['pk'], "off")
         return HttpResponseRedirect('/ui/nodes/')
+
+
+class ContainersCreateView(CreateView):
+    form_class = ContainerCreateForm
+    template_name = 'tala/containers/create.html'
+    success_url = "/ui/containers/"
+
+    def form_valid(self, form):
+        # TODO: コンテナ作成処理を作る
+        #from core.utils.executor import create_bare_metal
+        #create_bare_metal.delay(self.kwargs['pk'], form.data['os'], form.data['username'])
+        self.object = form.save()
+        return HttpResponseRedirect('/ui/containers/')
