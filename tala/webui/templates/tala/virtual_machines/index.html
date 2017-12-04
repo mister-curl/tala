@@ -15,6 +15,7 @@
           <th>Power</th>
           <th>Status</th>
           <th>VNC</th>
+          <th>KVM HOST</th>
           <th></th>
           <th></th>
         </tr>
@@ -32,6 +33,7 @@
             <i class="fa fa-tv"></i>
         </a>
       </td>
+          <td><a href="{% url 'webui:node' pk=virtual_machines.host_server.id %}">{{ virtual_machines.host_server.name }}</a></td>
           <td>
         <button class="btn btn-info" onClick="location.href='{% url 'webui:virtualmachine-edit' pk=virtual_machines.id %}'">Edit</button>
       </td>
