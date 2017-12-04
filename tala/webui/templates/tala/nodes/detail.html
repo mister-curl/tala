@@ -152,21 +152,37 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>VMName</th>
-                        <th>IP Address</th>
-                        <th>Power</th>
-                        <th>TYPE</th>
+                          <th>NodeName</th>
+                          <th>IP Address</th>
+                          <th>Power</th>
+                          <th>Status</th>
+                          <th>VNC</th>
+                          <th>KVM HOST</th>
+                          <th></th>
+                          <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for virtual_machine in node.virtual_machines.all %}
+                    {% for virtual_machine in node.containers.all %}
                     <tr>
-                        <td><a href="{% url 'webui:virtualmachine' pk=virtual_machine.id %}">{{ virtual_machine.id }}</a></td>
-                        <td><a href="{% url 'webui:virtualmachine' pk=virtual_machine.id %}">{{ virtual_machine.name }}</a></td>
-                        <td>{{ virtual_machine.ip_address}}</td>
-                        <td>On</td>
-                        <td>VM</td>
-                    </tr>
+          <td><a href="{{ virtual_machine.id }}/">{{ virtual_machine.id }}</a></td>
+          <td><a href="{{ virtual_machine.id }}/">{{ virtual_machine.name }}</a></td>
+          <td>{{ virtual_machine.ip_address }}</td>
+          <td>{{ virtual_machine.get_power_status }}</td>
+          <td>{{ virtual_machine.status }}</td>
+          <td>
+        <a href="javascript:window.open('http://61.192.216.181:{{ virtual_machine.vnc_port }}/vnc_auto.html', 'mywindow1', 'width=1000, height=1000, menubar=no, toolbar=no, scrollbars=yes');">
+            <i class="fa fa-tv"></i>
+        </a>
+      </td>
+          <td><a href="{% url 'webui:node' pk=virtual_machine.host_server.id %}">{{ virtual_machine.host_server.name }}</a></td>
+          <td>
+        <button class="btn btn-info" onClick="location.href='{% url 'webui:virtualmachine-edit' pk=virtual_machine.id %}'">Edit</button>
+      </td>
+      <td>
+        <button class="btn btn-danger" onClick="location.href='{% url 'webui:virtualmachine-delete' pk=virtual_machine.id %}'">Delete</button>
+      </td>
+        </tr>
                     {% endfor %}
                     </tbody>
                 </table>
