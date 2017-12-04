@@ -30,7 +30,7 @@
       <td>{{ node.status }}</td>
       <td>{{ node.type }}</td>
       <td>
-        <a href="{% url 'webui:index' %}">
+        <a href="javascript:window.open('http://61.192.216.181:{{ node.vnc_port }}/vnc_auto.html', 'mywindow1', 'width=1000, height=1000, menubar=no, toolbar=no, scrollbars=yes');">
             <i class="fa fa-tv"></i>
         </a>
       </td>
