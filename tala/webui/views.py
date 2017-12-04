@@ -30,6 +30,10 @@ from core.models import Container
 
 from webui.forms.container_create import ContainerCreateForm
 
+from webui.forms.vm_power_off import VirtualMachinePowerOffForm
+from webui.forms.vm_power_on import VirtualMachinePowerOnForm
+from webui.forms.vm_power_restart import VirtualMachinePowerRestartForm
+
 
 def login(request):
     return render(request, 'tala/auth/login.html')
@@ -306,3 +310,36 @@ class ContainerDelete(DeleteView):
     model = Container
     template_name = 'tala/containers/delete.html'
     success_url = '/ui/containers/'
+
+
+class VirtualMachinePowerRestart(FormView):
+    template_name = 'tala/virtual_machines/vm_power_restart.html'
+    form_class = VirtualMachinePowerRestartForm
+    success_url = "/ui/virtualmachines/"
+
+    def form_valid(self, form):
+        from core.utils.executor import power_control_for_vm
+        power_control_for_vm.delay(self.kwargs['pk'], "restart")
+        return HttpResponseRedirect('/ui/virtualmachines/')
+
+
+class VirtualMachinePowerOn(FormView):
+    template_name = 'tala/virtual_machines/vm_power_on.html'
+    form_class = VirtualMachinePowerOnForm
+    success_url = "/ui/virtualmachines/"
+
+    def form_valid(self, form):
+        from core.utils.executor import power_control_for_vm
+        power_control_for_vm.delay(self.kwargs['pk'], "on")
+        return HttpResponseRedirect('/ui/virtualmachines/')
+
+
+class VirtualMachinePowerOff(FormView):
+    template_name = 'tala/virtual_machines/vm_power_off.html'
+    form_class = VirtualMachinePowerOffForm
+    success_url = "/ui/virtualmachines/"
+
+    def form_valid(self, form):
+        from core.utils.executor import power_control_for_vm
+        power_control_for_vm.delay(self.kwargs['pk'], "off")
+        return HttpResponseRedirect('/ui/virtualmachines/')

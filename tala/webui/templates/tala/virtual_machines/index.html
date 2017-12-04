@@ -26,7 +26,7 @@
           <td><a href="{{ virtual_machines.id }}/">{{ virtual_machines.id }}</a></td>
           <td><a href="{{ virtual_machines.id }}/">{{ virtual_machines.name }}</a></td>
           <td>{{ virtual_machines.ip_address }}</td>
-          <td>{{ virtual_machines.power }}</td>
+          <td>{{ virtual_machines.get_power_status }}</td>
           <td>{{ virtual_machines.status }}</td>
           <td>
         <a href="javascript:window.open('http://61.192.216.181:{{ virtual_machines.vnc_port }}/vnc_auto.html', 'mywindow1', 'width=1000, height=1000, menubar=no, toolbar=no, scrollbars=yes');">
