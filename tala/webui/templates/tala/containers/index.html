@@ -27,10 +27,10 @@
           <td>On</td>
           <td>{{ container.status }}</td>
           <td>
-        <button class="btn btn-info" onClick="location.href='{% url 'webui:user-edit' pk=user.id %}'">Edit</button>
+        <button class="btn btn-info" onClick="location.href='{% url 'webui:container-edit' pk=container.id %}'">Edit</button>
       </td>
       <td>
-        <button class="btn btn-danger" onClick="location.href='{% url 'webui:virtualmachine-delete' pk=container.id %}'">Delete</button>
+        <button class="btn btn-danger" onClick="location.href='{% url 'webui:container-delete' pk=container.id %}'">Delete</button>
       </td>
         </tr>
         {% endfor %}

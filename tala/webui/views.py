@@ -293,3 +293,16 @@ class VirtualMachineUpdate(UpdateView):
     fields = ['name', 'description']
     template_name = 'tala/virtual_machines/edit.html'
     success_url = "/ui/virtualmachines/"
+
+
+class ContainerUpdate(UpdateView):
+    model = Container
+    fields = ['name', 'description']
+    template_name = 'tala/containers/edit.html'
+    success_url = "/ui/containers/"
+
+
+class ContainerDelete(DeleteView):
+    model = Container
+    template_name = 'tala/containers/delete.html'
+    success_url = '/ui/containers/'

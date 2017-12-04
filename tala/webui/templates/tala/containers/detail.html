@@ -16,8 +16,9 @@
 
 <div class="btn-group">
     <button class="btn btn-primary">OS Install</button>
-    <button class="btn btn-info">Edit</button>
-    <button class="btn btn-danger right">Delete</button>
+    <button class="btn btn-info" onClick="location.href='{% url 'webui:container-edit' pk=object.id %}'">Edit</button>
+    <button class="btn btn-danger right" onClick="location.href='{% url 'webui:container-delete' pk=object.id %}'">Delete
+    </button>
 </div>
 
 
