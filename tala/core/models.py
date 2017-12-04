@@ -67,6 +67,11 @@ class VirtualMachine(models.Model):
     allocate_disk = models.CharField("割り当てディスク容量", max_length=200, blank=True, choices=DISK_CHOICES)
     vnc_port = models.IntegerField("VNCポート番号", blank=True, null=True)
 
+    def get_power_status(self):
+        from core.utils.executor import get_power_for_vm
+        get_power_for_vm.delay(self.pk)
+        return self.power
+
 
 class Container(models.Model):
     #CPU_CHOICES = (
