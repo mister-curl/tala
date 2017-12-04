@@ -163,6 +163,46 @@ def power_control_for_node(host_id, state):
 
 
 @app.task
+def get_power_for_vm(vm_id):
+    """
+    電源状態を取得します
+    """
+
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'power.sh', '-H', str(vm_id), '-O', 'status', '-T', 'vm']
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
+
+
+@app.task
+def power_control_for_vm(vm_id, state):
+    """
+    電源状態を任意の状態に変更します
+    """
+
+    command = [BASH, SCRIPT_ROOT_DIR_PATH + 'power.sh', '-H', str(vm_id), '-O', state, '-T', 'vm']
+    try:
+        process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise
+    except:
+        stdout = process.stdout.decode('utf-8')
+        stderr = process.stderr.decode('utf-8')
+        print(stdout)
+        print(stderr)
+        return False
+    return True
+
+
+@app.task
 def create_container(container_id):
     """
     Dockerホスト上にContainerを作成します。
