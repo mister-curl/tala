@@ -14,29 +14,23 @@
           <th>IP Address</th>
           <th>Power</th>
           <th>Status</th>
-          <th>VNC</th>
           <th></th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        {% for virtual_machines in object_list %}
+        {% for container in object_list %}
         <tr>
-          <td><a href="{{ virtual_machines.id }}/">{{ virtual_machines.id }}</a></td>
-          <td><a href="{{ virtual_machines.id }}/">{{ virtual_machines.name }}</a></td>
-          <td>{{ virtual_machines.ip_address }}</td>
+          <td><a href="{{ container.id }}/">{{ container.id }}</a></td>
+          <td><a href="{{ container.id }}/">{{ container.name }}</a></td>
+          <td>{{ container.ip_address }}</td>
           <td>On</td>
-          <td>{{ virtual_machines.status }}</td>
-          <td>
-        <a href="{% url 'webui:index' %}">
-            <i class="fa fa-tv"></i>
-        </a>
-      </td>
+          <td>{{ container.status }}</td>
           <td>
         <button class="btn btn-info" onClick="location.href='{% url 'webui:user-edit' pk=user.id %}'">Edit</button>
       </td>
       <td>
-        <button class="btn btn-danger" onClick="location.href='{% url 'webui:virtualmachine-delete' pk=virtual_machines.id %}'">Delete</button>
+        <button class="btn btn-danger" onClick="location.href='{% url 'webui:virtualmachine-delete' pk=container.id %}'">Delete</button>
       </td>
         </tr>
         {% endfor %}
