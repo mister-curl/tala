@@ -77,6 +77,10 @@
                         <td>{{ object.os }}</td>
                     </tr>
                     <tr>
+                        <th>KVM HOST</th>
+                        <td><a href="{% url 'webui:node' pk=object.host_server.id %}">{{ object.host_server.name }}</a></td>
+                    </tr>
+                    <tr>
                         <th>Description</th>
                         <td>{{ object.description }}</td>
                     </tr>
