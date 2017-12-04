@@ -61,7 +61,15 @@
                     </tr>
                     <tr>
                         <th>Memory</th>
-                        <td>{{ object.allocate_memory }} </td>
+                        {% if object.allocate_memory == "512" %}
+                            <td>512 MB</td>
+                        {% elif object.allocate_memory == "1024" %}
+                            <td>1 GB</td>
+                        {% elif object.allocate_memory == "2048" %}
+                            <td>2 GB</td>
+                        {% elif object.allocate_memory == "4096" %}
+                            <td>4 GB</td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <th>Disk</th>
