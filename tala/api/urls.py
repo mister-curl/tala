@@ -14,6 +14,10 @@ nodes_router = routers.NestedSimpleRouter(router, r'nodes', lookup='node')
 nodes_router.register(r'graphs', views.NodeGraphViewSet, base_name='node-graphs')
 nodes_router.register(r'metrics', views.MetricsViewSet, base_name='node-metrics')
 
+nodes_router2 = routers.NestedSimpleRouter(router, r'vms', lookup='vm')
+nodes_router2.register(r'graphs', views.NodeGraphViewSet, base_name='vm-graphs')
+nodes_router2.register(r'metrics', views.MetricsViewSet, base_name='vm-metrics')
+
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^', include(nodes_router.urls)),
