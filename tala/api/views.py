@@ -140,13 +140,13 @@ class NodeGraphViewSet(BaseLineChartView,
             network_outgoing = list(network_outgoing)
             return [network_incoming, network_outgoing]
         elif self.graph_type == "disk":
-            network_incoming = Metrics.objects.filter(node=self.node, metrics_type='network_incoming').order_by(
+            disk_read = Metrics.objects.filter(node=self.node, metrics_type='disk_read').order_by(
                 '-created_date')[:7].values_list('value', flat=True)
-            network_outgoing = Metrics.objects.filter(node=self.node, metrics_type='network_outgoing').order_by(
+            disk_write = Metrics.objects.filter(node=self.node, metrics_type='disk_write').order_by(
                 '-created_date')[:7].values_list('value', flat=True)
-            network_incoming = list(network_incoming)
-            network_outgoing = list(network_outgoing)
-            return [network_incoming, network_outgoing]
+            disk_read = list(disk_read)
+            disk_write = list(disk_write)
+            return [disk_read, disk_write]
         elif self.graph_type == "cpu":
             cpu_load_average_1m = Metrics.objects.filter(node=self.node, metrics_type='cpu_load_average_1m').order_by(
                 '-created_date')[:7].values_list('value', flat=True)

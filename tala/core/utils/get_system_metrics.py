@@ -1,5 +1,6 @@
 import json
 import os
+import random
 import time
 import datetime
 
@@ -53,6 +54,36 @@ while 1:
                                                         'value': memory.free,
                                                         'unit': 'VALUE'},
                                                        default=datetime_handler))
+    requests.post(API, headers=HEADER, data=json.dumps({'date': date,
+                                                        'metrics_type': 'memory_free',
+                                                        'value': memory.free,
+                                                        'unit': 'VALUE'},
+                                                       default=datetime_handler))
+
+    requests.post(API, headers=HEADER, data=json.dumps({'date': date,
+                                                        'metrics_type': 'disk_read',
+                                                        'value': random.uniform(1, 20000),
+                                                        'unit': 'VALUE'},
+                                                       default=datetime_handler))
+
+    requests.post(API, headers=HEADER, data=json.dumps({'date': date,
+                                                        'metrics_type': 'disk_write',
+                                                        'value': random.uniform(1, 20000),
+                                                        'unit': 'VALUE'},
+                                                       default=datetime_handler))
+
+    requests.post(API, headers=HEADER, data=json.dumps({'date': date,
+                                                        'metrics_type': 'network_incoming',
+                                                        'value': random.uniform(1, 20000),
+                                                        'unit': 'VALUE'},
+                                                       default=datetime_handler))
+
+    requests.post(API, headers=HEADER, data=json.dumps({'date': date,
+                                                        'metrics_type': 'network_outgoing',
+                                                        'value': random.uniform(1, 20000),
+                                                        'unit': 'VALUE'},
+                                                       default=datetime_handler))
+
 
     #disk = psutil.disk_io_counters()
     #print(disk.read_count)
